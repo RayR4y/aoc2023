@@ -15,6 +15,7 @@ fs.readFile('day1input.txt', (err, data) => {
                 actualStringnumber = foundStringnums[0]
                 let test = stringnumbers.find((s) => s === actualStringnumber);
                 console.log('found' + test)
+                input[i] = input[i].replace(foundStringnums[0],stringnumbers.indexOf(test)+1)
             }
             //input[i] = input[i].replace(capturingRegex, stringnumbers.indexOf(stringnumbers.find(checkNumRegex())))
             console.log(capturingRegex + input[i])
