@@ -1,6 +1,6 @@
 //const stream = new ReadableStream("day1input.txt");
 //const fileReader = new FileReader()
-const stringnumbers = ['one','two']
+const stringnumbers = ['one','two','three']
 const fs = require('fs');
 let actualStringnumber
 fs.readFile('day1input.txt', (err, data) => {
@@ -8,14 +8,16 @@ fs.readFile('day1input.txt', (err, data) => {
     const input = data.toString().split('\n');
     let sum = 0;
     for(let i = 0; i<input.length; i++){
-            const capturingRegex = /(?<number>one|two)/;
+            const capturingRegex = /(?<number>one|two|three)/;
             console.log(capturingRegex + input[i])
             const foundStringnums = input[i].match(capturingRegex);
             if(foundStringnums != null){
-                actualStringnumber = foundStringnums[0]
+                for(let j = 0; j<foundStringnums.length; j++){
+                actualStringnumber = foundStringnums[j]
                 let test = stringnumbers.find((s) => s === actualStringnumber);
                 console.log('found' + test)
-                input[i] = input[i].replace(foundStringnums[0],stringnumbers.indexOf(test)+1)
+                input[i] = input[i].replace(foundStringnums[j],stringnumbers.indexOf(test)+1)
+                }
             }
             //input[i] = input[i].replace(capturingRegex, stringnumbers.indexOf(stringnumbers.find(checkNumRegex())))
             console.log(capturingRegex + input[i])
