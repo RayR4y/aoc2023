@@ -2,7 +2,6 @@
 //const fileReader = new FileReader()
 const stringnumbers = ['one','two','three','four','five','six','seven','eight','nine']
 const fs = require('fs');
-let actualStringnumber
 fs.readFile('day1input.txt', (err, data) => {
     if (err) throw err;
     const input = data.toString().split('\n');
@@ -12,8 +11,7 @@ fs.readFile('day1input.txt', (err, data) => {
             const capturingRegex = /(?<number>one|two|three|four|five|six|seven|eight|nine)/;
             let foundStringnums = input[i].match(capturingRegex);
             while(foundStringnums!=null){
-                actualStringnumber = foundStringnums[0]
-                let test = stringnumbers.find((s) => s === actualStringnumber);
+                let test = stringnumbers.find((s) => s === foundStringnums[0]);
                 console.log('found' + test)
                 input[i] = input[i].replace(foundStringnums[0],stringnumbers.indexOf(test)+1)
                 foundStringnums = input[i].match(capturingRegex);
@@ -43,10 +41,6 @@ fs.readFile('day1input.txt', (err, data) => {
     console.log(sum)
     //console.log(input[2].match(regex));
   });
-
-  function checkNumRegex(value){
-    return actualStringnumber === value
-  }
 
 //function readfile(){
     //const text = FileReader.readAsText("day1input.txt")
