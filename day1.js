@@ -8,9 +8,18 @@ fs.readFile('day1input.txt', (err, data) => {
     const input = data.toString().split('\n');
     let sum = 0;
     for(let i = 0; i<input.length; i++){
+            console.log(input[i])
             const capturingRegex = /(?<number>one|two|three)/;
+            let foundStringnums = input[i].match(capturingRegex);
+            while(foundStringnums!=null){
+                actualStringnumber = foundStringnums[0]
+                let test = stringnumbers.find((s) => s === actualStringnumber);
+                console.log('found' + test)
+                input[i] = input[i].replace(foundStringnums[0],stringnumbers.indexOf(test)+1)
+                foundStringnums = input[i].match(capturingRegex);
+            }
             console.log(capturingRegex + input[i])
-            const foundStringnums = input[i].match(capturingRegex);
+            /*foundStringnums = input[i].match(capturingRegex);
             if(foundStringnums != null){
                 for(let j = 0; j<foundStringnums.length; j++){
                 actualStringnumber = foundStringnums[j]
@@ -18,7 +27,7 @@ fs.readFile('day1input.txt', (err, data) => {
                 console.log('found' + test)
                 input[i] = input[i].replace(foundStringnums[j],stringnumbers.indexOf(test)+1)
                 }
-            }
+            }*/
             //input[i] = input[i].replace(capturingRegex, stringnumbers.indexOf(stringnumbers.find(checkNumRegex())))
             console.log(capturingRegex + input[i])
             const regex = /[1-9]/g;
