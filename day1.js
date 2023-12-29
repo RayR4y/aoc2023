@@ -9,19 +9,13 @@ fs.readFile('day1input.txt', (err, data) => {
     for(let i = 0; i<input.length; i++){
             console.log(input[i])
             const capturingRegex = /(?<number>one|two|three|four|five|six|seven|eight|nine)/;
-            let foundStringnumsBeforeReduce = input[i].match(capturingRegex);
-            if(foundStringnumsBeforeReduce!=null){
-                if(foundStringnumsBeforeReduce.length>1){
-                    //foundStringnums = foundStringnumsBeforeReduce.reduce((previousValue,currentValue)=> previousValue.includes(currentValue) ? previousValue : [...previousValue ,currentValue],[])
-                    foundStringnums = foundStringnumsBeforeReduce
-                }
-                for(let a = 0; a<foundStringnums.length;a++){
-                    console.log('foundstingnums [' + a + ']: ' + foundStringnums)  
-                    let test = stringnumbers.find((s) => s === foundStringnums[a]);
+            let foundStringnums = input[i].match(capturingRegex);
+            while(foundStringnums!=null){ 
+                    let test = stringnumbers.find((s) => s === foundStringnums[0]);
                     console.log('found' + test)
-                    input[i] = input[i].replace(foundStringnums[a],stringnumbers[stringnumbers.indexOf(test)] + stringnumbers.indexOf(test)+1)
+                    input[i] = input[i].replace(foundStringnums[0],foundStringnums[0].charAt(0) + Number(Number(stringnumbers.indexOf(test))+1) + foundStringnums[0].charAt(foundStringnums[0].length-1))
+                    foundStringnums = input[i].match(capturingRegex);
                 }
-            }
             console.log(capturingRegex + input[i])
             /*foundStringnums = input[i].match(capturingRegex);
             if(foundStringnums != null){
