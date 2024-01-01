@@ -5,6 +5,14 @@ fs.readFile('day2input.txt', (err, data) => {
     //console.log(input)
     let sum = 0
     for(let i = 0; i<input.length;i++){
+        const regex = /[:]/g;
+        const regex2 = /[;]/g;
+        input[i] = input[i].replace(regex,',')
+        input[i] = input[i].replace(regex2,',')
+        revealedSets = input[i].split(',')
+        for(let r=0; r<revealedSets.length;r++){
+           console.log('revealed set: ' + revealedSets[r])
+        }
         console.log(i)
         console.log(input[i])
         gamevaluefirstSplit = input[i].split(' ');
