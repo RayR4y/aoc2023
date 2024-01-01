@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { getEnvironmentData } = require('worker_threads');
 fs.readFile('day2input.txt', (err, data) => {
     if (err) throw err;
     const input = data.toString().split('\n');
@@ -10,7 +11,25 @@ fs.readFile('day2input.txt', (err, data) => {
         input[i] = input[i].replace(regex,',')
         input[i] = input[i].replace(regex2,',')
         revealedSets = input[i].split(',')
+        let isPossible = true;
         for(let r=0; r<revealedSets.length;r++){
+           revealedSet = revealedSets[r].split(' ') 
+           if(revealedSet[2]==='red' && revealedSet[1]>12){
+             isPossible = false;
+             console.log('Is impossible because ' + revealedSet[1] + revealedSet[2] + 'cubes are more than 12')   
+           }
+           else{
+            if(revealedSet[2]==='green' && revealedSet[1]>13){
+                isPossible = false; 
+                console.log('Is impossible because ' + revealedSet[1] + revealedSet[2] + 'cubes are more than 13')   
+              }
+              else{
+                if(revealedSet[2]==='blue' && revealedSet[1]>14){
+                    isPossible = false;  
+                    console.log('Is impossible because ' + revealedSet[1] + revealedSet[2] + 'cubes are more than 14') 
+                  }
+              }
+           } 
            console.log('revealed set: ' + revealedSets[r])
         }
         console.log(i)
@@ -24,7 +43,9 @@ fs.readFile('day2input.txt', (err, data) => {
             }
         }
         console.log('Gamevalue:' + gamevalue)
-        sum = sum + Number(gamevalue)
+        if(isPossible){
+            sum = sum + Number(gamevalue)
+        }
     }
     console.log(sum)
     
