@@ -26,7 +26,7 @@ fs.readFile('day3input.txt', (err, data) => {
                         num = num + input[i].charAt(j-b)
                     }
                     if(nums[nums.length-1]!=num){
-                        console.log(num)
+                        //console.log(num)
                         nums.push(num) 
                         multiplyPositions.push(checkSurroundings(input,i,j))  
                     }
@@ -45,8 +45,17 @@ fs.readFile('day3input.txt', (err, data) => {
     }
     finalnums = []
     for(let i =0; i< newnums.length; i++){
+        console.log('newnums' + i + ' ' + newnums[i])
+        console.log('pos' + i + ' ' + multiplyPositions[i])
         for(let j =0; j< newnums.length; j++){
-            if(multiplyPositions[i]==multiplyPositions[j]){
+            let comparestring1 = multiplyPositions[i][0] + multiplyPositions[i][1]
+            let comparestring2 = multiplyPositions[j][0] + multiplyPositions[j][1]
+            console.log(multiplyPositions[i][0] + 'pos1 i and j' + multiplyPositions[j][0])
+            console.log(multiplyPositions[i][1] + 'pos2 i and j' + multiplyPositions[j][1])
+            console.log(comparestring1.includes(comparestring2))
+            //console.log(multiplyPositions[i][0] == multiplyPositions[j][0] && multiplyPositions[i][1] == multiplyPositions[j][1])
+            if(comparestring1.includes(comparestring2)){
+                console.log('i' + newnums[i] + 'j' + newnums[j])
                 finalnum = Number(newnums[i])*Number(newnums[j])
                 if(!finalnums.includes(finalnum)){
                     finalnums.push(finalnum)
@@ -64,7 +73,6 @@ fs.readFile('day3input.txt', (err, data) => {
 });
 
 function checkSurroundings(array, i,j){
-    const regex = /[0-9]/g;
     conditionOne = false;
     conditionTwo = false;
     conditionThree = false;
@@ -73,37 +81,61 @@ function checkSurroundings(array, i,j){
     conditionSix = false;
     conditionSeven = false;
     conditionEight = false;
+    let returnarray = null;
     if(i>0 && j>0){
         conditionOne = array[i-1].charAt(j-1)=='*'
-        returnarray = [i-1,j-1]
         if(conditionOne){
-            return returnarray
+            returnarray = [[i-1],[j-1]]
         }
     }
     if(i>0){
         conditionTwo = array[i-1].charAt(j)=='*'
+        if(conditionTwo){
+        returnarray = [[i-1],[j]]
+        }
     }
     if(i>0 && j<array[i].length-2){
         conditionThree = array[i-1].charAt(j+1)=='*'
+        if(conditionThree){
+            returnarray = [[i-1],[j+1]]
+        }
     }
     if(j>0){
         conditionFour = array[i].charAt(j-1)=='*'
+        if(conditionFour){
+            returnarray = [[i],[j-1]]
+        }
     }
     if(j<array[i].length-2){
         conditionFive = array[i].charAt(j+1)=='*'
+        if(conditionFive){
+            returnarray = [[i],[j+1]]
+        }
     }
     if(i<array.length-1 && j>0){
         conditionSix = array[i+1].charAt(j-1)=='*'
+        if(conditionSix){
+            returnarray = [[i+1],[j-1]]
+        }
     }
     if(i<array.length-1){
         conditionSeven = array[i+1].charAt(j)=='*'
+        if(conditionSeven){
+            returnarray = [[i+1],[j]]
+        }
     }
     if(i<array.length-1 && j<array[i].length-2){
-        console.log(array.length)
-        console.log(array[i].length)
-        console.log(i)
-        console.log(j)
         conditionEight = array[i+1].charAt(j+1)=='*'
-    } //790 3 5 und 8 => alle j+1 conditions sind true
+        if(conditionEight){
+            returnarray = [[i+1],[j+1]]
+        }
+    }
+    /*if(returnarray != []){
+        return returnarray
+    }
+    else{
+        return null
+    }*/
+    return returnarray;
     
 }
