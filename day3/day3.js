@@ -7,9 +7,13 @@ fs.readFile('day3input.txt', (err, data) => {
     let sum = 0
     let nums = [];
     const regex = /[1-9]/g;
+
     for(let i = 0; i<input.length;i++){
         //console.log(input[i])
         for(let j = 0; j<input[i].length; j++){
+            if(input[i].charAt(j)=='.'){
+                nums.push(0)
+            }
             if(input[i].charAt(j).match(regex)!=null){
                 if(checkSurroundings(input,i,j) == true){
                     a = 1;
