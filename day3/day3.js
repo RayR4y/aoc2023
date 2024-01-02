@@ -6,7 +6,7 @@ fs.readFile('day3input.txt', (err, data) => {
     //console.log(input)
     let sum = 0
     let nums = [];
-    const regex = /[1-9]/g;
+    const regex = /[0-9]/g;
 
     for(let i = 0; i<input.length;i++){
         //console.log(input[i])
@@ -32,7 +32,9 @@ fs.readFile('day3input.txt', (err, data) => {
         }
     }
     for(let t = 0; t<nums.length; t++){
-        //console.log(nums[t])
+        if(nums[t]!=0){
+            console.log(nums[t])
+        }
         sum = sum + Number(nums[t])
     }
     console.log(sum)
@@ -42,7 +44,7 @@ fs.readFile('day3input.txt', (err, data) => {
 });
 
 function checkSurroundings(array, i,j){
-    const regex = /[1-9]/g;
+    const regex = /[0-9]/g;
     conditionOne = false;
     conditionTwo = false;
     conditionThree = false;
