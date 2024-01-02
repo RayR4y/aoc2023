@@ -47,8 +47,16 @@ fs.readFile('day3input.txt', (err, data) => {
     finalnums = []
     for(let i =0; i< newnums.length; i++){
         for(let j =0; j< newnums.length; j++){
-            let comparestring1 = multiplyPositions[i][0] + multiplyPositions[i][1]
-            let comparestring2 = multiplyPositions[j][0] + multiplyPositions[j][1]
+            let comparestring1 = multiplyPositions[i][0] + ' ' + multiplyPositions[i][1]
+            let comparestring2 = multiplyPositions[j][0] + ' ' + multiplyPositions[j][1]
+            if(i==0 && j==0){
+                console.log('specialcompare')
+            }
+            console.log(multiplyPositions[i][0])
+            console.log(multiplyPositions[i][1])
+            console.log('comparestrings:')
+            console.log(comparestring1)
+            console.log(comparestring2)
             //console.log(comparestring1.includes(comparestring2))
             //console.log(multiplyPositions[i][0] == multiplyPositions[j][0] && multiplyPositions[i][1] == multiplyPositions[j][1])
             if(comparestring1.includes(comparestring2) && i!=j){
@@ -89,49 +97,49 @@ function checkSurroundings(array, i,j){
     if(i>0 && j>0){
         conditionOne = array[i-1].charAt(j-1)=='*'
         if(conditionOne){
-            returnarray = [[i-1],[j-1]]
+            returnarray = [i-1,j-1]
         }
     }
     if(i>0){
         conditionTwo = array[i-1].charAt(j)=='*'
         if(conditionTwo){
-        returnarray = [[i-1],[j]]
+        returnarray = [i-1,j]
         }
     }
     if(i>0 && j<array[i].length-2){
         conditionThree = array[i-1].charAt(j+1)=='*'
         if(conditionThree){
-            returnarray = [[i-1],[j+1]]
+            returnarray = [i-1,j+1]
         }
     }
     if(j>0){
         conditionFour = array[i].charAt(j-1)=='*'
         if(conditionFour){
-            returnarray = [[i],[j-1]]
+            returnarray = [i,j-1]
         }
     }
     if(j<array[i].length-2){
         conditionFive = array[i].charAt(j+1)=='*'
         if(conditionFive){
-            returnarray = [[i],[j+1]]
+            returnarray = [i,j+1]
         }
     }
     if(i<array.length-1 && j>0){
         conditionSix = array[i+1].charAt(j-1)=='*'
         if(conditionSix){
-            returnarray = [[i+1],[j-1]]
+            returnarray = [i+1,j-1]
         }
     }
     if(i<array.length-1){
         conditionSeven = array[i+1].charAt(j)=='*'
         if(conditionSeven){
-            returnarray = [[i+1],[j]]
+            returnarray = [i+1,j]
         }
     }
     if(i<array.length-1 && j<array[i].length-2){
         conditionEight = array[i+1].charAt(j+1)=='*'
         if(conditionEight){
-            returnarray = [[i+1],[j+1]]
+            returnarray = [i+1,j+1]
         }
     }
     /*if(returnarray != []){
