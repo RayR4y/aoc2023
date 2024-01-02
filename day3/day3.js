@@ -25,6 +25,7 @@ fs.readFile('day3input.txt', (err, data) => {
                         num = num + input[i].charAt(j-b)
                     }
                     if(nums[nums.length-1]!=num){
+                        console.log(num)
                         nums.push(num)   
                     }
                 }
@@ -33,7 +34,7 @@ fs.readFile('day3input.txt', (err, data) => {
     }
     for(let t = 0; t<nums.length; t++){
         if(nums[t]!=0){
-            console.log(nums[t])
+            //console.log(nums[t])
         }
         sum = sum + Number(nums[t])
     }
@@ -59,13 +60,13 @@ function checkSurroundings(array, i,j){
     if(i>0){
         conditionTwo = array[i-1].charAt(j)!='.' && array[i-1].charAt(j).match(regex)==null 
     }
-    if(i>0 && j<array[i].length-1){
+    if(i>0 && j<array[i].length-2){
         conditionThree = array[i-1].charAt(j+1)!='.' && array[i-1].charAt(j+1).match(regex)==null
     }
     if(j>0){
         conditionFour = array[i].charAt(j-1)!='.' && array[i].charAt(j-1).match(regex)==null
     }
-    if(j<array[i].length-1){
+    if(j<array[i].length-2){
         conditionFive = array[i].charAt(j+1)!='.' && array[i].charAt(j+1).match(regex)==null
     }
     if(i<array.length-1 && j>0){
@@ -74,9 +75,21 @@ function checkSurroundings(array, i,j){
     if(i<array.length-1){
         conditionSeven = array[i+1].charAt(j)!='.' && array[i+1].charAt(j).match(regex)==null
     }
-    if(i<array.length-1 && j<array[i].length-1){
+    if(i<array.length-1 && j<array[i].length-2){
+        console.log(array.length)
+        console.log(array[i].length)
+        console.log(i)
+        console.log(j)
         conditionEight = array[i+1].charAt(j+1)!='.' && array[i+1].charAt(j+1).match(regex)==null
-    }
+    } //790 3 5 und 8 => alle j+1 conditions sind true
+    console.log("condition1:" + conditionOne)
+    console.log("condition2:" + conditionTwo)
+    console.log("condition3:" + conditionThree)
+    console.log("condition4:" + conditionFour)
+    console.log("condition5:" + conditionFive)
+    console.log("condition6:" + conditionSix)
+    console.log("condition7:" + conditionSeven)
+    console.log("condition8:" + conditionEight)
     if(conditionOne || conditionTwo || conditionThree || conditionFour || conditionFive || conditionSix || conditionSeven || conditionEight){
         return true;
     }
