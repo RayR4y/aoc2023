@@ -54,7 +54,7 @@ fs.readFile('day3input.txt', (err, data) => {
             console.log(multiplyPositions[i][1] + 'pos2 i and j' + multiplyPositions[j][1])
             console.log(comparestring1.includes(comparestring2))
             //console.log(multiplyPositions[i][0] == multiplyPositions[j][0] && multiplyPositions[i][1] == multiplyPositions[j][1])
-            if(comparestring1.includes(comparestring2)){
+            if(comparestring1.includes(comparestring2) && i!=j){
                 console.log('i' + newnums[i] + 'j' + newnums[j])
                 finalnum = Number(newnums[i])*Number(newnums[j])
                 if(!finalnums.includes(finalnum)){
