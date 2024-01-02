@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { SourceTextModule } = require('vm');
 const { getEnvironmentData } = require('worker_threads');
 fs.readFile('day3input.txt', (err, data) => {
     if (err) throw err;
@@ -45,18 +46,21 @@ fs.readFile('day3input.txt', (err, data) => {
     }
     finalnums = []
     for(let i =0; i< newnums.length; i++){
-        console.log('newnums' + i + ' ' + newnums[i])
-        console.log('pos' + i + ' ' + multiplyPositions[i])
         for(let j =0; j< newnums.length; j++){
             let comparestring1 = multiplyPositions[i][0] + multiplyPositions[i][1]
             let comparestring2 = multiplyPositions[j][0] + multiplyPositions[j][1]
-            console.log(multiplyPositions[i][0] + 'pos1 i and j' + multiplyPositions[j][0])
-            console.log(multiplyPositions[i][1] + 'pos2 i and j' + multiplyPositions[j][1])
-            console.log(comparestring1.includes(comparestring2))
+            //console.log(comparestring1.includes(comparestring2))
             //console.log(multiplyPositions[i][0] == multiplyPositions[j][0] && multiplyPositions[i][1] == multiplyPositions[j][1])
             if(comparestring1.includes(comparestring2) && i!=j){
-                console.log('i' + newnums[i] + 'j' + newnums[j])
+                console.log('newnumi' + i + ' ' + newnums[i])
+                console.log('newnumj' + j + ' ' + newnums[j])
+                console.log(multiplyPositions[i][0] + 'pos1 i and j' + multiplyPositions[j][0])
+                console.log(multiplyPositions[i][1] + 'pos2 i and j' + multiplyPositions[j][1])
+                //console.log('i' + newnums[i] + 'j' + newnums[j])
                 finalnum = Number(newnums[i])*Number(newnums[j])
+                if(finalnums.includes(finalnum)){
+                    console.log('already includes num i ' + newnums[i] + ' and num j ' + newnums[j])
+                }
                 if(!finalnums.includes(finalnum)){
                     finalnums.push(finalnum)
                 }
