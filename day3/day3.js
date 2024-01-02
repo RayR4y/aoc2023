@@ -5,25 +5,32 @@ fs.readFile('day3input.txt', (err, data) => {
     const input = data.toString().split('\n');
     //console.log(input)
     let sum = 0
+    let nums = [];
     const regex = /[1-9]/g;
     for(let i = 0; i<input.length;i++){
         //console.log(input[i])
         for(let j = 0; j<input[i].length; j++){
-            /*if(input[i].charAt(j)!='.' && input[i].charAt(j).match(regex)==null){
-                //console.log(input[i].charAt(j))
-                if(input[i].charAt(j-1).match(regex)!=null){
-                    let a = 1
+            if(input[i].charAt(j).match(regex)!=null){
+                if(checkSurroundings(input,i,j) == true){
+                    a = 1;
                     while(input[i].charAt(j-a).match(regex)!=null){
                         a=a+1
-                    } //in untermethoden auslagern
-                } //umdrehen, umkreis der Zahl checken, weil sonst zahl doppelt gerechnet werden kann
-            }*/
-            if(input[i].charAt(j).match(regex)!=null){
-                //checkSurroundings(input,i,j);
+                    }
+                    num = ''
+                    for(b = a-1; input[i].charAt(j-b).match(regex)!=null; b-- ){
+                        num = num + input[i].charAt(j-b)
+                    }
+                    if(nums[nums.length-1]!=num){
+                        nums.push(num)   
+                    }
+                }
             }
         }
     }
-    checkSurroundings()
+    for(let t = 0; t<nums.length; t++){
+        //console.log(nums[t])
+        sum = sum + Number(nums[t])
+    }
     console.log(sum)
     
     
@@ -31,6 +38,7 @@ fs.readFile('day3input.txt', (err, data) => {
 });
 
 function checkSurroundings(array, i,j){
+    const regex = /[1-9]/g;
     conditionOne = false;
     conditionTwo = false;
     conditionThree = false;
@@ -40,28 +48,28 @@ function checkSurroundings(array, i,j){
     conditionSeven = false;
     conditionEight = false;
     if(i>0 && j>0){
-        conditionOne = input[i-1].charAt(j-1)!='.' && input[i-1].charAt(j-1).match(regex)==null
+        conditionOne = array[i-1].charAt(j-1)!='.' && array[i-1].charAt(j-1).match(regex)==null
     }
     if(i>0){
-        conditionTwo = input[i-1].charAt(j)!='.' && input[i-1].charAt(j).match(regex)==null 
+        conditionTwo = array[i-1].charAt(j)!='.' && array[i-1].charAt(j).match(regex)==null 
     }
     if(i>0 && j<array[i].length-1){
-        conditionThree = input[i-1].charAt(j+1)!='.' && input[i-1].charAt(j+1).match(regex)==null
+        conditionThree = array[i-1].charAt(j+1)!='.' && array[i-1].charAt(j+1).match(regex)==null
     }
     if(j>0){
-        conditionFour = input[i].charAt(j-1)!='.' && input[i].charAt(j-1).match(regex)==null
+        conditionFour = array[i].charAt(j-1)!='.' && array[i].charAt(j-1).match(regex)==null
     }
     if(j<array[i].length-1){
-        conditionFive = input[i].charAt(j+1)!='.' && input[i].charAt(j+1).match(regex)==null
+        conditionFive = array[i].charAt(j+1)!='.' && array[i].charAt(j+1).match(regex)==null
     }
     if(i<array.length-1 && j>0){
-        conditionSix = input[i+1].charAt(j-1)!='.' && input[i+1].charAt(j-1).match(regex)==null 
+        conditionSix = array[i+1].charAt(j-1)!='.' && array[i+1].charAt(j-1).match(regex)==null 
     }
     if(i<array.length-1){
-        conditionSeven = input[i+1].charAt(j)!='.' && input[i+1].charAt(j).match(regex)==null
+        conditionSeven = array[i+1].charAt(j)!='.' && array[i+1].charAt(j).match(regex)==null
     }
     if(i<array.length-1 && j<array[i].length-1){
-        conditionEight = input[i+1].charAt(j+1)!='.' && input[i+1].charAt(j+1).match(regex)==null
+        conditionEight = array[i+1].charAt(j+1)!='.' && array[i+1].charAt(j+1).match(regex)==null
     }
     if(conditionOne || conditionTwo || conditionThree || conditionFour || conditionFive || conditionSix || conditionSeven || conditionEight){
         return true;
