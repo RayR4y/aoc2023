@@ -1,5 +1,7 @@
 const fs = require('fs');
+const { pipeline } = require('stream');
 //const { getEnvironmentData } = require('worker_threads');
+let mappingstateForPipe = 0;
 fs.readFile('day5input.txt', (err, data) => {
     if (err) throw err;
     const input = data.toString().split('\n');
@@ -8,6 +10,8 @@ fs.readFile('day5input.txt', (err, data) => {
     const regex2 = /[a-z]/g;
     //mappings = [[],[],[],[],[],[],[]]
     mappings = []
+    mappingsWithRevertedKeyValues = []
+
     seeds = input[0].split(' ');
     actualNumbers = []
     ranges = []
@@ -38,22 +42,43 @@ fs.readFile('day5input.txt', (err, data) => {
     //console.log(input[3])
     counter = 0;
     mappings.push(new Map())
+    mappingsWithRevertedKeyValues.push(new Map)
     for(let i = 3; i<input.length; i++){
         if(input[i].match(regex)!=null){
             splittedInput = input[i].split(' ')
             for(let j = 0; j<splittedInput[2]; j++){
                 mappings[counter].set(Number(splittedInput[1])+j,Number(splittedInput[0])+j)
+                mappingsWithRevertedKeyValues[counter].set(Number(splittedInput[0])+j,Number(splittedInput[1])+j)
             }
             //mappings[counter].set('key','value')
         }
         else{
             if(input[i].match(regex2)==null && counter<7){
                 mappings.push(new Map())  
+                mappingsWithRevertedKeyValues.push(new Map)
                 counter = counter+1 
             }
         }
     }
     console.log(mappings)
+
+    console.log(getOrReturnValueIfNotInMapReverted(1))
+    console.log(getOrReturnValueIfNotInMapReverted(2))
+    console.log(getOrReturnValueIfNotInMapReverted(3))
+    console.log(getOrReturnValueIfNotInMapReverted(4))
+    console.log(getOrReturnValueIfNotInMapReverted(5))
+    console.log(getOrReturnValueIfNotInMapReverted(6))
+    console.log(getOrReturnValueIfNotInMapReverted(58))
+
+    /*pipe(
+        mappingsWithRevertedKeyValues[0].get,
+        mappingsWithRevertedKeyValues[1].get,
+        mappingsWithRevertedKeyValues[2].get,
+
+    )()
+
+    //erst for schleife die für alle möglichen ergebnisse von Map 7 die inputs überprüft
+    //dann schleife die für alle mölichen ergebnisse die kleiner sind die inputs überprüft
 
     //prepare Mappings
     /*for(let d = 0; d<mappings.length; d++){
@@ -149,3 +174,30 @@ for(let r = 0; r<maxNeededRange; r++){
     
 
 });
+
+function getOrReturnValueIfNotInMapReverted(value){
+    if(mappingsWithRevertedKeyValues[mappingstateForPipe].get(value)!= undefined){
+        returnvalue = mappingsWithRevertedKeyValues[mappingstateForPipe].get(value)
+
+        if(mappingstateForPipe<6){
+            setMappingStateForPipe(mappingstateForPipe+1)
+        }
+        else{
+            setMappingStateForPipe(0)
+        }
+
+        return returnvalue
+    } else{
+        if(mappingstateForPipe<6){
+            setMappingStateForPipe(mappingstateForPipe+1)
+        }
+        else{
+            setMappingStateForPipe(0)
+        }
+        return value;
+    }
+}
+
+function setMappingStateForPipe(number){
+    mappingstateForPipe = number;
+}
