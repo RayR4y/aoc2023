@@ -46,12 +46,36 @@ fs.readFile('day5input.txt', (err, data) => {
             }
         }
     }
-    maxrange = Math.max(...ranges)
+    valuesToDetermineMinOutputValue= []
+    for(let d = 0; d<mappings.length; d++){
+        for(let j = 0; j<mappings[d].length; j++){
+            mappings[d][j] = mappings[d][j].split(' ')
+            //mappings[d][j][0] = Number(mappings[d][j][0])
+            valuesToDetermineMinOutputValue.push(mappings[d][j][0])
+            //valuesToDetermineMax.push(mappings[d][j][1])
+            //valuesToDetermineMax.push(mappings[d][j][2])
+        }
+        //console.log(mappings[d])
+        //innerarray = mappings[d]
+        //maxvalues.push(Math.max(...innerarray))
+    }
+    maxNeededOutput = Math.max(...ranges)
+    minStartOfRange = Math.min(...initialNumbers)
+    smallestOutputValue = Math.min(...valuesToDetermineMinOutputValue)
+    if(smallestOutputValue<minStartOfRange){
+        console.log('smallestOutputValue is smaller Than minStartOfRange')
+        
+    }
+    else{
+        console.log('smallestOutputValue is not smaller Than minStartOfRange')
+    }
+    //console.log('MaxNeededRange' + maxNeededRange)
 /*for(let e = 0; e<initialNumbers.length;e++){
     actualNumbers.push(Number(initialNumbers[e]))
 }*/
-for(let r = 0; r<maxrange; r++){
-    console.log('r:  ' + r + '  /  ' + maxrange)
+    maxNeededRange = maxNeededOutput-minStartOfRange;
+for(let r = 0; r<maxNeededRange; r++){
+    console.log('r:  ' + r + '  /  ' + maxNeededRange)
     //console.log('old actual Numbers:')
     //console.log(actualNumbers)
     for(let e = 0; e<initialNumbers.length;e++){
@@ -70,7 +94,7 @@ for(let r = 0; r<maxrange; r++){
             for(let j = 0; j<mappings[i].length; j++){
                 //console.log('Mappings ij:')
                 //console.log(mappings[i][j])
-                dataSet = mappings[i][j].split(' ')
+                dataSet = mappings[i][j]
                 if(matchfound == false){
                     //console.log('actualnum: ' + actualNumbers[a])
                     //console.log('dataSet[0]: ' + dataSet[0])
