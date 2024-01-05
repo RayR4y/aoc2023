@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { pipeline } = require('stream');
 //const { getEnvironmentData } = require('worker_threads');
-let mappingstateForPipe = 0;
+let mappingstateForPipeReverted = 6;
 fs.readFile('day5input.txt', (err, data) => {
     if (err) throw err;
     const input = data.toString().split('\n');
@@ -62,23 +62,24 @@ fs.readFile('day5input.txt', (err, data) => {
     }
     console.log(mappings)
 
-    console.log(getOrReturnValueIfNotInMapReverted(1))
+    /*console.log(getOrReturnValueIfNotInMapReverted(1))
     console.log(getOrReturnValueIfNotInMapReverted(2))
     console.log(getOrReturnValueIfNotInMapReverted(3))
     console.log(getOrReturnValueIfNotInMapReverted(4))
     console.log(getOrReturnValueIfNotInMapReverted(5))
     console.log(getOrReturnValueIfNotInMapReverted(6))
-    console.log(getOrReturnValueIfNotInMapReverted(58))
+    console.log(getOrReturnValueIfNotInMapReverted(58))*/
 
-    /*pipe(
-        mappingsWithRevertedKeyValues[0].get,
-        mappingsWithRevertedKeyValues[1].get,
-        mappingsWithRevertedKeyValues[2].get,
-
-    )()
-
-    //erst for schleife die für alle möglichen ergebnisse von Map 7 die inputs überprüft
-    //dann schleife die für alle mölichen ergebnisse die kleiner sind die inputs überprüft
+    let test = pipe(
+        getOrReturnValueIfNotInMapReverted,
+        getOrReturnValueIfNotInMapReverted,
+        getOrReturnValueIfNotInMapReverted,
+        getOrReturnValueIfNotInMapReverted,
+        getOrReturnValueIfNotInMapReverted,
+        getOrReturnValueIfNotInMapReverted,
+        getOrReturnValueIfNotInMapReverted,
+    )(58)
+    console.log('test:' + test)
 
     //prepare Mappings
     /*for(let d = 0; d<mappings.length; d++){
@@ -176,28 +177,32 @@ for(let r = 0; r<maxNeededRange; r++){
 });
 
 function getOrReturnValueIfNotInMapReverted(value){
-    if(mappingsWithRevertedKeyValues[mappingstateForPipe].get(value)!= undefined){
-        returnvalue = mappingsWithRevertedKeyValues[mappingstateForPipe].get(value)
-
-        if(mappingstateForPipe<6){
-            setMappingStateForPipe(mappingstateForPipe+1)
+    if(mappingsWithRevertedKeyValues[mappingstateForPipeReverted].get(value)!= undefined){
+        returnvalue = mappingsWithRevertedKeyValues[mappingstateForPipeReverted].get(value)
+        console.log('Map: ' + mappingstateForPipeReverted + ' inputvalue -> returnvalue:' + value + ' -> ' + returnvalue)
+        if(mappingstateForPipeReverted>0){
+            setMappingStateForPipe(mappingstateForPipeReverted-1)
         }
         else{
-            setMappingStateForPipe(0)
+            setMappingStateForPipe(6)
         }
 
         return returnvalue
     } else{
-        if(mappingstateForPipe<6){
-            setMappingStateForPipe(mappingstateForPipe+1)
+        console.log('Map: ' + mappingstateForPipeReverted + ' inputvalue -> returnvalue:' + value + ' -> ' + value)
+        if(mappingstateForPipeReverted>0){
+            setMappingStateForPipe(mappingstateForPipeReverted-1)
         }
         else{
-            setMappingStateForPipe(0)
+            setMappingStateForPipe(6)
         }
         return value;
     }
 }
 
+pipe = (...fns) => (x) => fns.reduce((v, f) => f(v), x);
+
+
 function setMappingStateForPipe(number){
-    mappingstateForPipe = number;
+    mappingstateForPipeReverted = number;
 }
