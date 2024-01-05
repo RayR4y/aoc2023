@@ -6,14 +6,15 @@ fs.readFile('day5input.txt', (err, data) => {
     //console.log(input)
     const regex = /[0-9]/g;
     const regex2 = /[a-z]/g;
-    mappings = [[],[],[],[],[],[],[]]
+    //mappings = [[],[],[],[],[],[],[]]
+    mappings = []
     seeds = input[0].split(' ');
     actualNumbers = []
     ranges = []
     initialNumbers = []
     allFinalNums = []
     even = false
-    console.log(seeds[0])
+    
     for(let s = 1; s<seeds.length; s++){
         if(!even){
             initialNumbers.push(seeds[s])
@@ -34,19 +35,41 @@ fs.readFile('day5input.txt', (err, data) => {
             actualNumbers.push(Number(initialNumbers[n]) + r);
         }
     }*/
+    //console.log(input[3])
     counter = 0;
+    mappings.push(new Map())
     for(let i = 3; i<input.length; i++){
         if(input[i].match(regex)!=null){
-            mappings[counter].push(input[i])
+            splittedInput = input[i].split(' ')
+            for(let j = 0; j<splittedInput[2]; j++){
+                mappings[counter].set(Number(splittedInput[1])+j,Number(splittedInput[0])+j)
+            }
+            //mappings[counter].set('key','value')
         }
         else{
-            if(input[i].match(regex2)==null){
-                //console.log(mappings[counter])
+            if(input[i].match(regex2)==null && counter<7){
+                mappings.push(new Map())  
                 counter = counter+1 
             }
         }
     }
-    valuesToDetermineMinOutputValue= []
+    console.log(mappings)
+
+    //prepare Mappings
+    /*for(let d = 0; d<mappings.length; d++){
+        for(let j = 0; j<mappings[d].length; j++){
+            mappings[d][j] = mappings[d][j].split(' ')
+        }
+    }
+
+    allOutputsOfMapping7 = []
+    for(let j = 0; j<mappings[6].length; j++){
+        allOutputsOfMapping7.push(mappings[6][j][0])
+    }*/
+
+    //minOutputValueOfStageSeven = Math.min(...allOutputsOfMapping7)
+    //console.log(minOutputValueOfStageSeven)
+    /*valuesToDetermineMinOutputValue= []
     for(let d = 0; d<mappings.length; d++){
         for(let j = 0; j<mappings[d].length; j++){
             mappings[d][j] = mappings[d][j].split(' ')
@@ -64,7 +87,7 @@ fs.readFile('day5input.txt', (err, data) => {
     smallestOutputValue = Math.min(...valuesToDetermineMinOutputValue)
     if(smallestOutputValue<minStartOfRange){
         console.log('smallestOutputValue is smaller Than minStartOfRange')
-        
+
     }
     else{
         console.log('smallestOutputValue is not smaller Than minStartOfRange')
@@ -73,7 +96,7 @@ fs.readFile('day5input.txt', (err, data) => {
 /*for(let e = 0; e<initialNumbers.length;e++){
     actualNumbers.push(Number(initialNumbers[e]))
 }*/
-    maxNeededRange = maxNeededOutput-minStartOfRange;
+    /*maxNeededRange = maxNeededOutput-minStartOfRange;
 for(let r = 0; r<maxNeededRange; r++){
     console.log('r:  ' + r + '  /  ' + maxNeededRange)
     //console.log('old actual Numbers:')
@@ -116,9 +139,9 @@ for(let r = 0; r<maxNeededRange; r++){
     }
     /*for(let a = 0; a<actualNumbers.length; a++){
         allFinalNums.push(actualNumbers[a])
-    }*/
-    allFinalNums.push(Math.min(...actualNumbers))
     }
+    allFinalNums.push(Math.min(...actualNumbers))
+    }*/
     min = Math.min(...allFinalNums)
     console.log('min: ' + min)
 
