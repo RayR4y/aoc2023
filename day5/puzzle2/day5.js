@@ -47,19 +47,19 @@ fs.readFile('day5input.txt', (err, data) => {
         }
     }
     maxrange = Math.max(...ranges)
-//hier die range for drüber, mit actualnumbers=initialnumbers + r
-//for für initial nums, dadrinnen dann if (initialnum[e] + ranges[e]<=actualnum[e]) {actualnum[e] = actualnum[e] + 1}
-//for(let r = 0;)
-//for(let e = 0; e<initialNumbers.length){}
-for(let e = 0; e<initialNumbers.length;e++){
-    actualNumbers.push(initialNumbers[e])
-}
+/*for(let e = 0; e<initialNumbers.length;e++){
+    actualNumbers.push(Number(initialNumbers[e]))
+}*/
 for(let r = 0; r<maxrange; r++){
+    console.log('old actual Numbers:')
+    console.log(actualNumbers)
     for(let e = 0; e<initialNumbers.length;e++){
-        if(Number(initialNumbers[e]) + Number(ranges[e]) < Number(actualNumbers[e])){
-            actualNumbers[e] = Number(actualNumbers[e])+1;
+        if(Number(initialNumbers[e]) + Number(ranges[e]) > Number(initialNumbers[e])+r){
+            actualNumbers[e] = Number(initialNumbers[e])+r;
         }
     }
+    console.log('new actual Numbers:')
+    console.log(actualNumbers)
     for(let i = 0; i<mappings.length; i++){
         console.log(actualNumbers + ' ' + i)
         for(let a = 0; a<actualNumbers.length; a++){
