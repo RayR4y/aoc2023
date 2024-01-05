@@ -11,6 +11,7 @@ fs.readFile('day5input.txt', (err, data) => {
     actualNumbers = []
     ranges = []
     initialNumbers = []
+    allFinalNums = []
     even = false
     console.log(seeds[0])
     for(let s = 1; s<seeds.length; s++){
@@ -25,14 +26,14 @@ fs.readFile('day5input.txt', (err, data) => {
     //console.log('initial Numbers:' + initialNumbers)
     //console.log('ranges:' + ranges)
     //console.log('actualNumbers' + actualNumbers)
-    for(let n = 0; n<initialNumbers.length; n++){
+    /*for(let n = 0; n<initialNumbers.length; n++){
         //console.log('ranges' + n + '= ' + ranges[n])
         for(let r = 0; r<Number(ranges[n]); r++){
             actualnum = Number(initialNumbers[n]) + r
             //console.log('new actual Number:' + actualnum)
             actualNumbers.push(Number(initialNumbers[n]) + r);
         }
-    }
+    }*/
     counter = 0;
     for(let i = 3; i<input.length; i++){
         if(input[i].match(regex)!=null){
@@ -45,7 +46,17 @@ fs.readFile('day5input.txt', (err, data) => {
             }
         }
     }
-
+    maxrange = Math.max(...ranges)
+//hier die range for drüber, mit actualnumbers=initialnumbers + r
+//for für initial nums, dadrinnen dann if (initialnum[e] + ranges[e]<=actualnum[e]) {actualnum[e] = actualnum[e] + 1}
+//for(let r = 0;)
+//for(let e = 0; e<initialNumbers.length){}
+for(let r = 0; r<maxrange; r++){
+    for(let e = 0; e<initialNumbers.length;e++){
+        if(Number(initialNumbers[e]) + Number(ranges[e]) < Number(actualNumbers[e])){
+            actualNumbers[e] = Number(actualNumbers[e])+1;
+        }
+    }
     for(let i = 0; i<mappings.length; i++){
         console.log(actualNumbers + ' ' + i)
         for(let a = 0; a<actualNumbers.length; a++){
@@ -75,7 +86,12 @@ fs.readFile('day5input.txt', (err, data) => {
 
         }
     }
-    min = Math.min(...actualNumbers)
+    /*for(let a = 0; a<actualNumbers.length; a++){
+        allFinalNums.push(actualNumbers[a])
+    }*/
+    allFinalNums.push(Math.min(...actualNumbers))
+    }
+    min = Math.min(...allFinalNums)
     console.log('min: ' + min)
 
     
