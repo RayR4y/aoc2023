@@ -51,6 +51,9 @@ fs.readFile('day5input.txt', (err, data) => {
 //for für initial nums, dadrinnen dann if (initialnum[e] + ranges[e]<=actualnum[e]) {actualnum[e] = actualnum[e] + 1}
 //for(let r = 0;)
 //for(let e = 0; e<initialNumbers.length){}
+for(let e = 0; e<initialNumbers.length;e++){
+    actualNumbers.push(initialNumbers[e])
+}
 for(let r = 0; r<maxrange; r++){
     for(let e = 0; e<initialNumbers.length;e++){
         if(Number(initialNumbers[e]) + Number(ranges[e]) < Number(actualNumbers[e])){
