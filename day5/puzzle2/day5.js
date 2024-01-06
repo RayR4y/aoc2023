@@ -3,6 +3,7 @@ const { pipeline } = require('stream');
 const { SourceTextModule } = require('vm');
 //const { getEnvironmentData } = require('worker_threads');
 let mappingstateForPipeReverted = 6;
+let amountMappingsUsed = 7;
 mappings = []
 mappingskeytoRange = []
 mappingsvaluetoRange = []
@@ -80,10 +81,61 @@ fs.readFile('day5input.txt', (err, data) => {
     console.log(getOrReturnValueIfNotInMapReverted(5))
     console.log(getOrReturnValueIfNotInMapReverted(6))
     console.log(getOrReturnValueIfNotInMapReverted(58))*/
+    //hier schleife drum, je in schleife für das jeweilige mapping niedrigsten möglichen output bestimmen,
+    //vorwärts zu 7 rechnen und in array speichern. dann alle arraywerte + niedrigsten input durch alle 7 
+    //vergleichen und niedrigstes ist finaler wert
+    allPossibleMinValues = [];
+    isPossibleInput = false;
+    for(let f = mappings.length; f>0; f--){
+    	//statt f resetten while schleife
+        console.log('f:' + f)
+    let allOuputValuesOfMapFReverted = Array.from(mappingsWithRevertedKeyValues[f-1].keys());
+    //for(let g = 0; g<allOuputValuesOfMapFReverted.length; g++){
+    //    console.log(g + ' ' + allOuputValuesOfMapFReverted[g])
+    //}
+    console.log('jump here')
+    while(!isPossibleInput){
+        for(let g = 0; g<allOuputValuesOfMapFReverted.length; g++){
+            console.log(g + ' ' + allOuputValuesOfMapFReverted[g])
+        }
+        minOutputOfMapF = Math.min(...allOuputValuesOfMapFReverted)
+        console.log('minimum: ' + minOutputOfMapF)
+        console.log(minOutputOfMapF)
+        setAmountMappingsUsedAndPrepare(f);
+        let inputForMinOutputOfMapF= pipe(
+            getOrReturnValueIfNotInMapReverted,
+            getOrReturnValueIfNotInMapReverted,
+            getOrReturnValueIfNotInMapReverted,
+            getOrReturnValueIfNotInMapReverted,
+            getOrReturnValueIfNotInMapReverted,
+            getOrReturnValueIfNotInMapReverted,
+            getOrReturnValueIfNotInMapReverted,
+        )(Number(minOutputOfMapF))
+        isPossibleInput = false;
+        for(let t = 0; t<initialNumbers.length; t++){
+            if(inputForMinOutputOfMapF >= initialNumbers[t] && inputForMinOutputOfMapF <= initialNumbers[t]+ranges[t]){
+                isPossibleInput = true;
+                console.log('is a possible input')
+                allPossibleMinValues.push(inputForMinOutputOfMapF);
+            }
+        }
+        if(!isPossibleInput){
+            console.log('is not a possible input')
+            allOuputValuesOfMapFReverted.splice(allOuputValuesOfMapFReverted.indexOf(minOutputOfMapF),1)
+            if(allOuputValuesOfMapFReverted.length == 0){
+                isPossibleInput = true;
+            }
+        }
+    }
+    isPossibleInput = false;
+    
+    }
 
-    allOuputValuesOfMap7Reverted = mappingsWithRevertedKeyValues[6].keys();
+
+    /*allOuputValuesOfMap7Reverted = Array.from(mappingsWithRevertedKeyValues[6].keys());
     minOutputOfMap7 = Math.min(...allOuputValuesOfMap7Reverted)
     console.log(minOutputOfMap7)
+    setAmountMappingsUsedAndPrepare(7);
     let inputForMinOutputOfMap7= pipe(
         getOrReturnValueIfNotInMapReverted,
         getOrReturnValueIfNotInMapReverted,
@@ -93,7 +145,7 @@ fs.readFile('day5input.txt', (err, data) => {
         getOrReturnValueIfNotInMapReverted,
         getOrReturnValueIfNotInMapReverted,
     //)(Number(minOutputOfMap7))
-    )(58)
+    )(minOutputOfMap7)
     for(let t = 0; t<initialNumbers.length; t++){
         if(inputForMinOutputOfMap7 >= initialNumbers[t] && inputForMinOutputOfMap7 <= initialNumbers[t]+ranges[t]){
             console.log(true)
@@ -200,13 +252,13 @@ function getOrReturnValueIfNotInMapReverted(actualValue){
     console.log('test123: ' + getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipeReverted]))
     if(getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipeReverted])[0]!= undefined){
         value = getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipeReverted])[0]
-        returnvalue = mappingsWithRevertedKeyValues[mappingstateForPipeReverted].get(value)
-        console.log('Map: ' + mappingstateForPipeReverted + ' inputvalue -> returnvalue:' + value + ' -> ' + returnvalue)
+        returnvalue = Number(mappingsWithRevertedKeyValues[mappingstateForPipeReverted].get(value)) + (Number(actualValue) - Number(value))
+        console.log('Map: ' + mappingstateForPipeReverted + ' inputvalue -> returnvalue:' + actualValue + ' -> ' + returnvalue)
         if(mappingstateForPipeReverted>0){
             setMappingStateForPipe(mappingstateForPipeReverted-1)
         }
         else{
-            setMappingStateForPipe(6)
+            setMappingStateForPipe(amountMappingsUsed-1)
         }
 
         return returnvalue
@@ -217,7 +269,7 @@ function getOrReturnValueIfNotInMapReverted(actualValue){
             setMappingStateForPipe(mappingstateForPipeReverted-1)
         }
         else{
-            setMappingStateForPipe(6)
+            setMappingStateForPipe(amountMappingsUsed-1)
         }
         return value;
     }
@@ -242,4 +294,9 @@ function getInitialValueForThisValueTroughRange(value, mapValuetoRange){
         }
       });
       return [returnnumber,returndiff]
+}
+
+function setAmountMappingsUsedAndPrepare(newAmount){
+    amountMappingsUsed = newAmount;
+    mappingstateForPipeReverted = newAmount-1;
 }
