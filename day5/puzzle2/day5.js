@@ -3,7 +3,11 @@ const { pipeline } = require('stream');
 const { SourceTextModule } = require('vm');
 //const { getEnvironmentData } = require('worker_threads');
 let mappingstateForPipeReverted = 6;
+let amountMappingsUsedForReverted = 7;
+let counterForMappingAmountFlexibilityForReverted = 0;
+let mappingstateForPipe = 6;
 let amountMappingsUsed = 7;
+let counterForMappingAmountFlexibility = 0;
 mappings = []
 mappingskeytoRange = []
 mappingsvaluetoRange = []
@@ -101,7 +105,7 @@ fs.readFile('day5input.txt', (err, data) => {
         minOutputOfMapF = Math.min(...allOuputValuesOfMapFReverted)
         console.log('minimum: ' + minOutputOfMapF)
         console.log(minOutputOfMapF)
-        setAmountMappingsUsedAndPrepare(f);
+        setAmountMappingsUsedAndPrepareForReverted(f);
         let inputForMinOutputOfMapF= pipe(
             getOrReturnValueIfNotInMapReverted,
             getOrReturnValueIfNotInMapReverted,
@@ -112,11 +116,21 @@ fs.readFile('day5input.txt', (err, data) => {
             getOrReturnValueIfNotInMapReverted,
         )(Number(minOutputOfMapF))
         isPossibleInput = false;
+        setAmountMappingsUsedAndPrepare(7,0)
+        let ouputForMinInputOfMapF= pipe(
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+        )(Number(inputForMinOutputOfMapF))
         for(let t = 0; t<initialNumbers.length; t++){
             if(inputForMinOutputOfMapF >= initialNumbers[t] && inputForMinOutputOfMapF <= initialNumbers[t]+ranges[t]){
                 isPossibleInput = true;
                 console.log('is a possible input')
-                allPossibleMinValues.push(inputForMinOutputOfMapF);
+                allPossibleMinValues.push(ouputForMinInputOfMapF);
             }
         }
         if(!isPossibleInput){
@@ -249,37 +263,80 @@ for(let r = 0; r<maxNeededRange; r++){
 });
 
 function getOrReturnValueIfNotInMapReverted(actualValue){
-    console.log('test123: ' + getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipeReverted]))
-    if(getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipeReverted])[0]!= undefined){
-        value = getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipeReverted])[0]
-        returnvalue = Number(mappingsWithRevertedKeyValues[mappingstateForPipeReverted].get(value)) + (Number(actualValue) - Number(value))
-        console.log('Map: ' + mappingstateForPipeReverted + ' inputvalue -> returnvalue:' + actualValue + ' -> ' + returnvalue)
-        if(mappingstateForPipeReverted>0){
-            setMappingStateForPipe(mappingstateForPipeReverted-1)
-        }
-        else{
-            setMappingStateForPipe(amountMappingsUsed-1)
-        }
+    if(counterForMappingAmountFlexibilityForReverted < amountMappingsUsedForReverted){
+        counterForMappingAmountFlexibilityForReverted = counterForMappingAmountFlexibilityForReverted+1;
+        console.log('test123: ' + getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipeReverted]))
+        if(getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipeReverted])[0]!= undefined){
+            value = getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipeReverted])[0]
+            returnvalue = Number(mappingsWithRevertedKeyValues[mappingstateForPipeReverted].get(value)) + (Number(actualValue) - Number(value))
+            console.log('Map: ' + mappingstateForPipeReverted + ' Rev: inputvalue -> returnvalue:' + actualValue + ' -> ' + returnvalue)
+            if(mappingstateForPipeReverted>0){
+                setMappingStateForPipeReverted(mappingstateForPipeReverted-1)
+            }
+            else{
+                setMappingStateForPipeReverted(amountMappingsUsedForReverted-1)
+            }
 
-        return returnvalue
-    } else{
-        value = actualValue;
-        console.log('Map: ' + mappingstateForPipeReverted + ' inputvalue -> returnvalue:' + value + ' -> ' + value)
-        if(mappingstateForPipeReverted>0){
-            setMappingStateForPipe(mappingstateForPipeReverted-1)
+            return returnvalue
+        } else{
+            value = actualValue;
+            console.log('Map: ' + mappingstateForPipeReverted + ' Rev: inputvalue -> returnvalue:' + value + ' -> ' + value)
+            if(mappingstateForPipeReverted>0){
+                setMappingStateForPipeReverted(mappingstateForPipeReverted-1)
+            }
+            else{
+                setMappingStateForPipeReverted(amountMappingsUsedForReverted-1)
+            }
+            return value;
         }
-        else{
-            setMappingStateForPipe(amountMappingsUsed-1)
+    }
+    else{
+        return actualValue;
+    }
+}
+
+function getOrReturnValueIfNotInMap(actualValue){
+    if(counterForMappingAmountFlexibility < amountMappingsUsed){
+        counterForMappingAmountFlexibility = counterForMappingAmountFlexibility+1;
+        console.log('test123: ' + getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipe]))
+        if(getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipe])[0]!= undefined){ 
+            value = getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipe])[0]
+            returnvalue = Number(mappings[mappingstateForPipe].get(actualValue)) + (Number(actualValue) - Number(value))
+            console.log('Map: ' + mappingstateForPipe + ' inputvalue -> returnvalue:' + actualValue + ' -> ' + returnvalue)
+            if(mappingstateForPipe<6){
+                setMappingStateForPipe(mappingstateForPipe+1)
+            }
+            else{
+                setMappingStateForPipe(0)
+            }
+
+            return returnvalue
+        } else{
+            value = actualValue;
+            console.log('Map: ' + mappingstateForPipe + ' inputvalue -> returnvalue:' + value + ' -> ' + value)
+            if(mappingstateForPipe<6){
+                setMappingStateForPipe(mappingstateForPipe+1)
+            }
+            else{
+                setMappingStateForPipe(0)
+            }
+            return value;
         }
-        return value;
+    }
+    else{
+        return actualValue;
     }
 }
 
 pipe = (...fns) => (x) => fns.reduce((v, f) => f(v), x);
 
 
-function setMappingStateForPipe(number){
+function setMappingStateForPipeReverted(number){
     mappingstateForPipeReverted = number;
+}
+
+function setMappingStateForPipe(number){
+    mappingstateForPipe = number;
 }
 
 function getInitialValueForThisValueTroughRange(value, mapValuetoRange){
@@ -293,10 +350,20 @@ function getInitialValueForThisValueTroughRange(value, mapValuetoRange){
             returndiff = Number(value) - Number(key)
         }
       });
+      if(returnnumber == undefined){
+        return [value, 0]
+      }
       return [returnnumber,returndiff]
 }
 
-function setAmountMappingsUsedAndPrepare(newAmount){
-    amountMappingsUsed = newAmount;
+function setAmountMappingsUsedAndPrepareForReverted(newAmount){
+    amountMappingsUsedForReverted = newAmount;
     mappingstateForPipeReverted = newAmount-1;
+    counterForMappingAmountFlexibilityForReverted = 0;
+}
+
+function setAmountMappingsUsedAndPrepare(newAmount, startFromMapping){
+    amountMappingsUsed = newAmount;
+    mappingstateForPipe = startFromMapping;
+    counterForMappingAmountFlexibility = 0;
 }
