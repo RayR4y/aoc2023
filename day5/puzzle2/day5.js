@@ -298,10 +298,10 @@ function getOrReturnValueIfNotInMapReverted(actualValue){
 function getOrReturnValueIfNotInMap(actualValue){
     if(counterForMappingAmountFlexibility < amountMappingsUsed){
         counterForMappingAmountFlexibility = counterForMappingAmountFlexibility+1;
-        console.log('test123: ' + getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipe]))
-        if(getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipe])[0]!= undefined){ 
-            value = getInitialValueForThisValueTroughRange(actualValue, mappingsvaluetoRange[mappingstateForPipe])[0]
-            returnvalue = Number(mappings[mappingstateForPipe].get(actualValue)) + (Number(actualValue) - Number(value))
+        console.log('test123: ' + getInitialValueForThisValueTroughRange(actualValue, mappingskeytoRange[mappingstateForPipe]))
+        if(getInitialValueForThisValueTroughRange(actualValue, mappingskeytoRange[mappingstateForPipe])[0]!= undefined){ 
+            value = getInitialValueForThisValueTroughRange(actualValue, mappingskeytoRange[mappingstateForPipe])[0]
+            returnvalue = Number(mappings[mappingstateForPipe].get(value)) + (Number(actualValue) - Number(value))
             console.log('Map: ' + mappingstateForPipe + ' inputvalue -> returnvalue:' + actualValue + ' -> ' + returnvalue)
             if(mappingstateForPipe<6){
                 setMappingStateForPipe(mappingstateForPipe+1)
@@ -344,15 +344,16 @@ function getInitialValueForThisValueTroughRange(value, mapValuetoRange){
     let returnnumber;
     let returndiff;
     keys.forEach((key) => {
-        if(Number(key)<=Number(value) && (Number(mapValuetoRange.get(key))+Number(key))>=Number(value)){
+        if(Number(key)<=Number(value) && (Number(mapValuetoRange.get(key))+Number(key))>Number(value)){
             console.log('found' + Number(key))
             returnnumber =  Number(key);
             returndiff = Number(value) - Number(key)
+            console.log('returnnumber: ' + returnnumber + ' returndiff: ' + returndiff)
         }
       });
-      if(returnnumber == undefined){
+      /*if(returnnumber == undefined){
         return [value, 0]
-      }
+      }*/
       return [returnnumber,returndiff]
 }
 
