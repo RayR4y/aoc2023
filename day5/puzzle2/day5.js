@@ -127,9 +127,12 @@ fs.readFile('day5input.txt', (err, data) => {
             getOrReturnValueIfNotInMap,
         )(Number(inputForMinOutputOfMapF))
         for(let t = 0; t<initialNumbers.length; t++){
-            if(inputForMinOutputOfMapF >= initialNumbers[t] && inputForMinOutputOfMapF <= initialNumbers[t]+ranges[t]){
+            //test123 = initialNumbers[t]+ranges[t];
+            //console.log('initalNumbers[' + t + ']: ' + initialNumbers[t])
+            //console.log('initialNum+Range = ' + test123)
+            if(inputForMinOutputOfMapF >= initialNumbers[t] && inputForMinOutputOfMapF < Number(initialNumbers[t])+Number(ranges[t])){
                 isPossibleInput = true;
-                console.log('is a possible input')
+                console.log(inputForMinOutputOfMapF + 'is a possible input')
                 allPossibleMinValues.push(ouputForMinInputOfMapF);
             }
         }
@@ -144,6 +147,12 @@ fs.readFile('day5input.txt', (err, data) => {
     isPossibleInput = false;
     
     }
+
+    console.log('all values in allPossibleMinValues:')
+    for(let k = 0; k<allPossibleMinValues.length; k++){
+        console.log(allPossibleMinValues[k])
+    }
+    
 
 
     /*allOuputValuesOfMap7Reverted = Array.from(mappingsWithRevertedKeyValues[6].keys());
@@ -254,7 +263,7 @@ for(let r = 0; r<maxNeededRange; r++){
     }
     allFinalNums.push(Math.min(...actualNumbers))
     }*/
-    min = Math.min(...allFinalNums)
+    min = Math.min(...allPossibleMinValues)
     console.log('min: ' + min)
 
     
