@@ -12,6 +12,7 @@ mappings = []
 mappingskeytoRange = []
 mappingsvaluetoRange = []
 mappingsWithRevertedKeyValues = []
+arrayForSavingMinOutputOfMap7 = []
 fs.readFile('day5input.txt', (err, data) => {
     if (err) throw err;
     const input = data.toString().split('\n');
@@ -94,26 +95,78 @@ fs.readFile('day5input.txt', (err, data) => {
     for(let f = mappings.length; f>0; f--){
     	//statt f resetten while schleife
         console.log('f:' + f)
-    let allOuputValuesOfMapFReverted = Array.from(mappingsWithRevertedKeyValues[f-1].keys());
+    //let allOuputValuesOfMapFReverted = Array.from(mappingsWithRevertedKeyValues[f-1].keys());
     //for(let g = 0; g<allOuputValuesOfMapFReverted.length; g++){
     //    console.log(g + ' ' + allOuputValuesOfMapFReverted[g])
     //}
     //test für ob es Lücken zwischen den Wertebereichen gibt (key or max)
     let allInputValuesOfMapF = Array.from(mappings[f-1].keys());
+    let minValuesOfInbetweenSpaces = [];
     for(let g = 0; g<allInputValuesOfMapF.length; g++){
         testvalue = Number(allInputValuesOfMapF[g]) + Number(mappingskeytoRange[f-1].get(allInputValuesOfMapF[g]));
         if(mappings[f-1].get(testvalue)==undefined && allInputValuesOfMapF[g]!=Math.max(...allInputValuesOfMapF)){
             console.log('es gibt zwischenwerte nach: ' + allInputValuesOfMapF[g])
+            minValuesOfInbetweenSpaces.push(testvalue)
         }
     }
-    console.log('jump here')
+    let possibleInputOfInbetweenValue = false
+    while(!possibleInputOfInbetweenValue){
+    minValueOfInbetweenSpaces = Math.min(...minValuesOfInbetweenSpaces)
+    setAmountMappingsUsedAndPrepareForReverted(f);
+    let inputForMinInbetweenValueOfMapF= pipe(
+        getOrReturnValueIfNotInMapReverted,
+        getOrReturnValueIfNotInMapReverted,
+        getOrReturnValueIfNotInMapReverted,
+        getOrReturnValueIfNotInMapReverted,
+        getOrReturnValueIfNotInMapReverted,
+        getOrReturnValueIfNotInMapReverted,
+        getOrReturnValueIfNotInMapReverted,
+    )(Number(minValueOfInbetweenSpaces))
+    possibleInputOfInbetweenValue = false
+    setAmountMappingsUsedAndPrepare(7,0)
+    let ouputForMinInbetweenValueOfMapF= pipe(
+        getOrReturnValueIfNotInMap,
+        getOrReturnValueIfNotInMap,
+        getOrReturnValueIfNotInMap,
+        getOrReturnValueIfNotInMap,
+        getOrReturnValueIfNotInMap,
+        getOrReturnValueIfNotInMap,
+        getOrReturnValueIfNotInMap,
+    )(Number(inputForMinInbetweenValueOfMapF))
+    for(let t = 0; t<initialNumbers.length; t++){
+        test123 = Number(initialNumbers[t])+Number(ranges[t]);
+        console.log('initalNumbers[' + t + ']: ' + initialNumbers[t])
+        console.log('initialNum+Range = ' + test123)
+        if(inputForMinInbetweenValueOfMapF>= initialNumbers[t] && inputForMinInbetweenValueOfMapF< Number(initialNumbers[t])+Number(ranges[t])){
+            possibleInputOfInbetweenValue = true;
+            console.log(inputForMinInbetweenValueOfMapF+ 'is a possible input')
+            allPossibleMinValues.push(ouputForMinInbetweenValueOfMapF);
+        }
+    }
+    if(!possibleInputOfInbetweenValue){
+        console.log('is not a possible input')
+        minValuesOfInbetweenSpaces.splice(minValuesOfInbetweenSpaces.indexOf(ouputForMinInbetweenValueOfMapF),1)
+        if(minValuesOfInbetweenSpaces.length == 0){
+            possibleInputOfInbetweenValue = true;
+        }
+    }
+    }
+    let allOuputValuesOfMapFReverted = Array.from(mappingsWithRevertedKeyValues[f-1].keys());
+    console.log('jump here' + f)
+    isPossibleInput = false;
+    firstrunThrough7 =  true;
     while(!isPossibleInput){
         for(let g = 0; g<allOuputValuesOfMapFReverted.length; g++){
             console.log(g + ' ' + allOuputValuesOfMapFReverted[g])
         }
-        minOutputOfMapF = Math.min(...allOuputValuesOfMapFReverted)
-        console.log('minimum: ' + minOutputOfMapF)
-        console.log(minOutputOfMapF)
+        minOutputOfMapFReverted = Math.min(...allOuputValuesOfMapFReverted)
+        if(f==7 && firstrunThrough7){
+            minOutputOfMap7 = minOutputOfMapFReverted;
+            //inputToMap7ForMinOutput = mappingsWithRevertedKeyValues[6].get(minOutputOfMap7)
+            firstrunThrough7 = false;
+        }
+        console.log('minimum: ' + minOutputOfMapFReverted)
+        console.log(minOutputOfMapFReverted)
         setAmountMappingsUsedAndPrepareForReverted(f);
         let inputForMinOutputOfMapF= pipe(
             getOrReturnValueIfNotInMapReverted,
@@ -123,10 +176,10 @@ fs.readFile('day5input.txt', (err, data) => {
             getOrReturnValueIfNotInMapReverted,
             getOrReturnValueIfNotInMapReverted,
             getOrReturnValueIfNotInMapReverted,
-        )(Number(minOutputOfMapF))
+        )(Number(minOutputOfMapFReverted))
         isPossibleInput = false;
         setAmountMappingsUsedAndPrepare(7,0)
-        let ouputForMinInputOfMapF= pipe(
+        let minOutputOfMapF= pipe(
             getOrReturnValueIfNotInMap,
             getOrReturnValueIfNotInMap,
             getOrReturnValueIfNotInMap,
@@ -142,7 +195,7 @@ fs.readFile('day5input.txt', (err, data) => {
             if(inputForMinOutputOfMapF >= initialNumbers[t] && inputForMinOutputOfMapF < Number(initialNumbers[t])+Number(ranges[t])){
                 isPossibleInput = true;
                 console.log(inputForMinOutputOfMapF + 'is a possible input')
-                allPossibleMinValues.push(ouputForMinInputOfMapF);
+                allPossibleMinValues.push(minOutputOfMapF);
             }
         }
         if(!isPossibleInput){
@@ -155,6 +208,55 @@ fs.readFile('day5input.txt', (err, data) => {
     }
     isPossibleInput = false;
     
+    }
+
+    //minOutputOfMap7 = minOutputOfMapF;
+    //inputToMap7ForMinOutput = mappingsWithRevertedKeyValues[6].get(minOutputOfMap7)
+    let possibleInputForMinOutputOfMap7 = false
+    testnum = Number(minOutputOfMap7) + Number(mappingsvaluetoRange[6].get(minOutputOfMap7))
+    for(let w = minOutputOfMap7; w<(Number(minOutputOfMap7) + Number(mappingsvaluetoRange[6].get(minOutputOfMap7))); w++){
+        console.log(w + '  /  ' + testnum)
+        setAmountMappingsUsedAndPrepareForReverted(7);
+        let inputForMinOutputOfMap7= pipe(
+            getOrReturnValueIfNotInMapReverted,
+            getOrReturnValueIfNotInMapReverted,
+            getOrReturnValueIfNotInMapReverted,
+            getOrReturnValueIfNotInMapReverted,
+            getOrReturnValueIfNotInMapReverted,
+            getOrReturnValueIfNotInMapReverted,
+            getOrReturnValueIfNotInMapReverted,
+        )(Number(w))
+        temporaryArrayForInitialInputNumbers = []
+        for(let t = 0; t<initialNumbers.length; t++){
+            test123 = Number(initialNumbers[t])+Number(ranges[t]);
+            //console.log('initalNumbers[' + t + ']: ' + initialNumbers[t])
+            //console.log('initialNum+Range = ' + test123)
+            if(inputForMinOutputOfMap7 >= initialNumbers[t] && inputForMinOutputOfMap7 < Number(initialNumbers[t])+Number(ranges[t])){
+                possibleInputForMinOutputOfMap7 = true;
+                console.log(inputForMinOutputOfMap7 + 'is a possible input')
+                allPossibleMinValues.push(minOutputOfMap7);
+            }
+            if(possibleInputForMinOutputOfMap7){
+                w = (Number(minOutputOfMap7) + Number(mapValuetoRange[6].get(minOutputOfMap7)))
+            }
+            /*if(initialNumbers[t]> inputForMinOutputOfMap7){
+                temporaryArrayForInitialInputNumbers.push(initialNumbers[t])
+            }*/
+        }
+        /*minNumOutOfInitialTempArray = Math.min(...temporaryArrayForInitialInputNumbers);
+        setAmountMappingsUsedAndPrepare(7,0)
+        let minOutputOfminNumOutOfInitialTempArray= pipe(
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+        )(Number(minNumOutOfInitialTempArray))
+        testvariable123 = minOutputOfminNumOutOfInitialTempArray-1
+        console.log('w changed to:' +  testvariable123)
+        w = minOutputOfminNumOutOfInitialTempArray-1;*/
     }
 
 
