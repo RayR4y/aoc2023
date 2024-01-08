@@ -501,3 +501,21 @@ function setAmountMappingsUsedAndPrepare(newAmount, startFromMapping){
     mappingstateForPipe = startFromMapping;
     counterForMappingAmountFlexibility = 0;
 }
+
+allArrayCombinationsOfNarrowedDownRanges = []
+//Neuer Ansatz für Prüfen des Niedrigsten Output-Wertbereiches von Mapping7:
+//Methode die Alle Bereiche aus dem jeweils niedrigeren Mapping raussucht, die OutputWerte enthalten, welche jeweils als input beim Oberen Mapping
+//den gewünschten Output ergeben, und von diesen Bereichen nur die Output Werteunterbereiche nimmt, die im höheren Mapping den gewünschten
+//output ergeben und in ein Array der Form [[],[],[],[],[],[],[]] in das Array des ersten Index speichert (als Anfang Teilbereich, Ende Teilbereich).
+//für jeden Bereich wird ein eigenes Array erstellt und die Methode wird für jeden Bereich nochmal rekursiv aufgerufen und das Array mitgegeben
+//Wenn das letzte Mapping das Obere Mapping der Methode ist, wird in den Inputbereichen geprüft, begonnen bei dem "Zweig" des Arraybaums der vom 
+//aller obersten Mapping den niedrigsten Wert hat, ob der dazu passende Inputbereich existiert -> wenn ja wird der entsprechende "Zweig"
+//seperat abgespeichert. Prüfung der anderen zweige wird dann durch überall while mit if condition boolean und boolean ändern abgebrochen. 
+//Dann wird durch vergleichen von unterstem bereich mit dem darüber der bereich darüber jeweils bis zum Obersten bereich auf den mit dem untersten
+//input möglichen Bereich verkleinert. der verkleinerte Endoutput bereich wird dann vom kleinsten Wert aus nach vorhandenseins des
+//initialen inputwertes geprüft und der erste Wert der zurückgegeben wird wird in Array mit Minimumwerten zum vergleich gespeichert.
+//Idee: statt für jeden Bereich ein eigenes Array zu erstellen Werte alle Pro Ebene in einem Array und dazu Matrix für Zusammenhang?
+//Baumstruktur aus Java auch anders in Java Script nachbaubar?
+function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMapping){
+    initialArray = [[],[],[],[],[],[],[]]
+}
