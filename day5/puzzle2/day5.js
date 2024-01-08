@@ -78,6 +78,7 @@ fs.readFile('day5input.txt', (err, data) => {
     }
     console.log(mappings)
 
+
     /*console.log(getOrReturnValueIfNotInMapReverted(1))
     console.log(getOrReturnValueIfNotInMapReverted(2))
     console.log(getOrReturnValueIfNotInMapReverted(3))
@@ -97,6 +98,14 @@ fs.readFile('day5input.txt', (err, data) => {
     //for(let g = 0; g<allOuputValuesOfMapFReverted.length; g++){
     //    console.log(g + ' ' + allOuputValuesOfMapFReverted[g])
     //}
+    //test für ob es Lücken zwischen den Wertebereichen gibt (key or max)
+    let allInputValuesOfMapF = Array.from(mappings[f-1].keys());
+    for(let g = 0; g<allInputValuesOfMapF.length; g++){
+        testvalue = Number(allInputValuesOfMapF[g]) + Number(mappingskeytoRange[f-1].get(allInputValuesOfMapF[g]));
+        if(mappings[f-1].get(testvalue)==undefined && allInputValuesOfMapF[g]!=Math.max(...allInputValuesOfMapF)){
+            console.log('es gibt zwischenwerte nach: ' + allInputValuesOfMapF[g])
+        }
+    }
     console.log('jump here')
     while(!isPossibleInput){
         for(let g = 0; g<allOuputValuesOfMapFReverted.length; g++){
@@ -127,9 +136,9 @@ fs.readFile('day5input.txt', (err, data) => {
             getOrReturnValueIfNotInMap,
         )(Number(inputForMinOutputOfMapF))
         for(let t = 0; t<initialNumbers.length; t++){
-            //test123 = initialNumbers[t]+ranges[t];
-            //console.log('initalNumbers[' + t + ']: ' + initialNumbers[t])
-            //console.log('initialNum+Range = ' + test123)
+            test123 = Number(initialNumbers[t])+Number(ranges[t]);
+            console.log('initalNumbers[' + t + ']: ' + initialNumbers[t])
+            console.log('initialNum+Range = ' + test123)
             if(inputForMinOutputOfMapF >= initialNumbers[t] && inputForMinOutputOfMapF < Number(initialNumbers[t])+Number(ranges[t])){
                 isPossibleInput = true;
                 console.log(inputForMinOutputOfMapF + 'is a possible input')
@@ -148,6 +157,19 @@ fs.readFile('day5input.txt', (err, data) => {
     
     }
 
+
+    minInitialInput = Math.min(...initialNumbers);
+    setAmountMappingsUsedAndPrepare(7,0)
+        let ouputForminInitialInput= pipe(
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+            getOrReturnValueIfNotInMap,
+        )(Number(minInitialInput))
+    allPossibleMinValues.push(ouputForminInitialInput);
     console.log('all values in allPossibleMinValues:')
     for(let k = 0; k<allPossibleMinValues.length; k++){
         console.log(allPossibleMinValues[k])
