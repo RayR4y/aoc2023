@@ -9,6 +9,7 @@ let mappingstateForPipe = 6;
 let amountMappingsUsed = 7;
 let counterForMappingAmountFlexibility = 0;
 temptestarray = []
+testtesttest = []
 tempStorageFinalAreas = []
 tempStorageInputAreas = []
 mappings = []
@@ -647,12 +648,14 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
         console.log(testarray2)
         console.log(finalareas.length)
         temptestarray.push(finalareas.length)
+        tempStorageFinalAreas.push(finalareas)
+        tempStorageInputAreas.push(inputareas)
         for(let i = 0; i<temptestarray[recursionIndex]; i++){
             extendedArray = []
             for(let j = 0; j<arrayToExtend.length;j++){
                 extendedArray.push(arrayToExtend[j])
             }
-            extendedArray.push(finalareas[i])
+            extendedArray.push(tempStorageFinalAreas[recursionIndex][i])
             console.log('finalareaslength is:' + finalareas.length)
             console.log('extendedArrayOf: ' + i)
             console.log(extendedArray)
@@ -660,8 +663,12 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
             console.log(inputareas)
             console.log('finalareas:')
             console.log(finalareas)
+            console.log('finalareas in storage:')
+            console.log(tempStorageFinalAreas[recursionIndex])
+            console.log(tempStorageInputAreas[recursionIndex][i][0])
+            console.log(tempStorageFinalAreas[recursionIndex][i][0])
             //indexOfUpperMapping, startValueOfUpperMappingInput, startValueOfUpperMappingOutput,
-            narrowDownRanges(indexOfUpperMapping-1, inputareas[i][0], inputareas[i][1], finalareas[i][0],finalareas[i][1], extendedArray, recursionIndex+1)
+            narrowDownRanges(indexOfUpperMapping-1, tempStorageInputAreas[recursionIndex][i][0], tempStorageInputAreas[recursionIndex][i][1], tempStorageFinalAreas[recursionIndex][i][0],tempStorageFinalAreas[recursionIndex][i][1], extendedArray, recursionIndex+1)
             console.log('finalareaslength is at end:' + finalareas.length)
             console.log('temptestarray is at end:' + temptestarray.length)
         }
@@ -685,15 +692,18 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
             if(sortedinitialNumbers[u]>=startValueOfUpperMappingInput && sortedinitialNumbers[u]<=endValueOfUpperMappingInput){
                 //return in
                 console.log('Der finale Input ist (initialValue): ' + sortedinitialNumbers[u])
+                testtesttest.push(sortedinitialNumbers[u])
                 //return processValue(sortedinitialNumbers[i])
             }
             if(sortedinitialNumbers[u] -1 + Number(mappingInitialNumberToRange.get(sortedinitialNumbers[u]))>=startValueOfUpperMappingInput && sortedinitialNumbers[u]<=endValueOfUpperMappingInput){
                 //return startval
                 console.log('Der finale Input ist (startvalue): ' + startValueOfUpperMappingInput)
+                testtesttest.push(startValueOfUpperMappingInput)
                 //return processValue(startValueOfUpperMappingInput)
             }
         }
         console.log('Nichts passt')
+        console.log(testtesttest)
     }
 
 }
