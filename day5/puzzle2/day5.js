@@ -8,6 +8,9 @@ let counterForMappingAmountFlexibilityForReverted = 0;
 let mappingstateForPipe = 6;
 let amountMappingsUsed = 7;
 let counterForMappingAmountFlexibility = 0;
+temptestarray = []
+tempStorageFinalAreas = []
+tempStorageInputAreas = []
 mappings = []
 mappingskeytoRange = []
 mappingsvaluetoRange = []
@@ -223,7 +226,7 @@ fs.readFile('day5input.txt', (err, data) => {
     allNarrowedDownRanges = new Map()
     allNarrowedDownRanges.set(0,[minOutputOfMap7,testnum])
     //(indexOfUpperMapping, startValueOfUpperMappingInput, endValueOfUpperMappingInput, startValueOfUpperMappingOutput, endValueOfUpperMappingOutput, arrayToExtend)
-    narrowDownRanges(6, inputForminOutputOfMap7,0,minOutputOfMap7,0,[allNarrowedDownRanges.get(0)])
+    narrowDownRanges(6, inputForminOutputOfMap7,0,minOutputOfMap7,0,[allNarrowedDownRanges.get(0)],0)
     /*for(let w = minOutputOfMap7; w<(Number(minOutputOfMap7) + Number(mappingsvaluetoRange[6].get(minOutputOfMap7))); w++){
         console.log(w + '  /  ' + testnum)
         setAmountMappingsUsedAndPrepareForReverted(7);
@@ -528,7 +531,7 @@ allArrayCombinationsOfNarrowedDownRanges = []
 //Baumstruktur aus Java auch anders in Java Script nachbaubar? -> verschachtelte Maps
 
 //end und range des Uppermappings müssen für später rekursion und Teilbereiche mitgegeben werden!
-function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, endValueOfUpperMappingInput, startValueOfUpperMappingOutput, endValueOfUpperMappingOutput, arrayToExtend){
+function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, endValueOfUpperMappingInput, startValueOfUpperMappingOutput, endValueOfUpperMappingOutput, arrayToExtend, recursionIndex){
     if(indexOfUpperMapping>0){
         if(indexOfUpperMapping==6){
             console.log('index is 6!')
@@ -638,23 +641,29 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
         for(let t = 0; t<testarray1.length; t++){
             testarray2.push(testarray1[t])
         }
-        //dann rekursiven aufruf und if bedingung für ende rekursion einbauen
         testarray2.push([5,6])
         console.log('testarrays')
         console.log(testarray1)
         console.log(testarray2)
-
-        for(let i = 0; i<finalareas.length; i++){
+        console.log(finalareas.length)
+        temptestarray.push(finalareas.length)
+        for(let i = 0; i<temptestarray[recursionIndex]; i++){
             extendedArray = []
             for(let j = 0; j<arrayToExtend.length;j++){
                 extendedArray.push(arrayToExtend[j])
             }
             extendedArray.push(finalareas[i])
-            console.log('finalareas.length is:' + finalareas.length)
+            console.log('finalareaslength is:' + finalareas.length)
             console.log('extendedArrayOf: ' + i)
             console.log(extendedArray)
+            console.log('inputareas:')
+            console.log(inputareas)
+            console.log('finalareas:')
+            console.log(finalareas)
             //indexOfUpperMapping, startValueOfUpperMappingInput, startValueOfUpperMappingOutput,
-            narrowDownRanges(indexOfUpperMapping-1, inputareas[i][0], inputareas[i][1], finalareas[i][0],finalareas[i][1], extendedArray)
+            narrowDownRanges(indexOfUpperMapping-1, inputareas[i][0], inputareas[i][1], finalareas[i][0],finalareas[i][1], extendedArray, recursionIndex+1)
+            console.log('finalareaslength is at end:' + finalareas.length)
+            console.log('temptestarray is at end:' + temptestarray.length)
         }
     }
     else{
@@ -665,19 +674,20 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
         console.log(endValueOfUpperMappingInput-startValueOfUpperMappingInput)
         console.log(initialNumbers)
         sortedinitialNumbers = []
-        for(let i = 0; i<initialNumbers.length; i++){
-            sortedinitialNumbers.push(Number(initialNumbers[i]))
+        for(let r = 0; r<initialNumbers.length; r++){
+            sortedinitialNumbers.push(Number(initialNumbers[r]))
         }
         sortedinitialNumbers.sort(function(a, b){return a-b})
         console.log(sortedinitialNumbers)
         console.log(initialNumbers)
-        for(let i = 0; i<sortedinitialNumbers; i++){
-            if(sortedinitialNumbers[i]>=startValueOfUpperMappingInput && sortedinitialNumbers[i]<=endValueOfUpperMappingInput){
+        for(let u = 0; u<sortedinitialNumbers.length; u++){
+            console.log('sortedInitialNumber: ' + u)
+            if(sortedinitialNumbers[u]>=startValueOfUpperMappingInput && sortedinitialNumbers[u]<=endValueOfUpperMappingInput){
                 //return in
-                console.log('Der finale Input ist (initialValue): ' + sortedinitialNumbers[i])
+                console.log('Der finale Input ist (initialValue): ' + sortedinitialNumbers[u])
                 //return processValue(sortedinitialNumbers[i])
             }
-            if(sortedinitialNumbers[i] -1 + Number(mappingInitialNumberToRange.get(sortedinitialNumbers[i]))>=startValueOfUpperMappingInput && sortedinitialNumbers[i]<=endValueOfUpperMappingInput){
+            if(sortedinitialNumbers[u] -1 + Number(mappingInitialNumberToRange.get(sortedinitialNumbers[u]))>=startValueOfUpperMappingInput && sortedinitialNumbers[u]<=endValueOfUpperMappingInput){
                 //return startval
                 console.log('Der finale Input ist (startvalue): ' + startValueOfUpperMappingInput)
                 //return processValue(startValueOfUpperMappingInput)
