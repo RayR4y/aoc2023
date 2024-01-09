@@ -712,6 +712,7 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
         }
         console.log('Nichts passt')
         console.log(testtesttest)
+        processValue(testtesttest[0])
     }
 
 }
