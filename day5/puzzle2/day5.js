@@ -650,7 +650,8 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
                 extendedArray.push(arrayToExtend[j])
             }
             extendedArray.push(finalareas[i])
-            console.log('extendedArray:')
+            console.log('finalareas.length is:' + finalareas.length)
+            console.log('extendedArrayOf: ' + i)
             console.log(extendedArray)
             //indexOfUpperMapping, startValueOfUpperMappingInput, startValueOfUpperMappingOutput,
             narrowDownRanges(indexOfUpperMapping-1, inputareas[i][0], inputareas[i][1], finalareas[i][0],finalareas[i][1], extendedArray)
@@ -662,6 +663,41 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
         console.log(startValueOfUpperMappingInput)
         console.log(endValueOfUpperMappingInput)
         console.log(endValueOfUpperMappingInput-startValueOfUpperMappingInput)
+        console.log(initialNumbers)
+        sortedinitialNumbers = []
+        for(let i = 0; i<initialNumbers.length; i++){
+            sortedinitialNumbers.push(Number(initialNumbers[i]))
+        }
+        sortedinitialNumbers.sort(function(a, b){return a-b})
+        console.log(sortedinitialNumbers)
+        console.log(initialNumbers)
+        for(let i = 0; i<sortedinitialNumbers; i++){
+            if(sortedinitialNumbers[i]>=startValueOfUpperMappingInput && sortedinitialNumbers[i]<=endValueOfUpperMappingInput){
+                //return in
+                console.log('Der finale Input ist (initialValue): ' + sortedinitialNumbers[i])
+                //return processValue(sortedinitialNumbers[i])
+            }
+            if(sortedinitialNumbers[i] -1 + Number(mappingInitialNumberToRange.get(sortedinitialNumbers[i]))>=startValueOfUpperMappingInput && sortedinitialNumbers[i]<=endValueOfUpperMappingInput){
+                //return startval
+                console.log('Der finale Input ist (startvalue): ' + startValueOfUpperMappingInput)
+                //return processValue(startValueOfUpperMappingInput)
+            }
+        }
+        console.log('Nichts passt')
     }
 
+}
+
+function processValue(value){
+    setAmountMappingsUsedAndPrepare(7,0)
+    let output= pipe(
+        getOrReturnValueIfNotInMap,
+        getOrReturnValueIfNotInMap,
+        getOrReturnValueIfNotInMap,
+        getOrReturnValueIfNotInMap,
+        getOrReturnValueIfNotInMap,
+        getOrReturnValueIfNotInMap,
+        getOrReturnValueIfNotInMap,
+    )(Number(value))
+    console.log('Der finale Output ist:' + output)
 }
