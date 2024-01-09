@@ -597,9 +597,19 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, st
             finalareas.push([areas[areas.length-1][1]+1,endOfUpperMappingInput])
         }
     }
-    inputareas = finalareas.slice()
-    //areas auch für input hinzufügen! -> hier inputareas erstellen(druch finalareas kopieren) und alles was auch in Referenz ist 
-    //auf input mappen und ersetzen
+    inputareas = []
+    for(let i = 0; i<finalareas.length; i++){
+        if(getInitialValueForThisValueTroughRange(finalareas[i][0],mappingsvaluetoRange[indexOfUpperMapping-1])[0]!=undefined){
+            initialValueArray = getInitialValueForThisValueTroughRange(finalareas[i][0],mappingsvaluetoRange[indexOfUpperMapping-1])
+            diffStartEnd = Number(finalareas[i][1]) - Number(finalareas[i][0])
+            valueOne = Number(mappingsWithRevertedKeyValues[indexOfUpperMapping-1].get(initialValueArray[0])) + Number(initialValueArray[1])
+            valueTwo = valueOne + diffStartEnd
+            inputareas.push([valueOne,valueTwo])
+        }
+        else{
+            inputareas.push(finalareas[i])
+        }
+    }
     console.log(finalareas)
     console.log('areasref und inputareas:')
     console.log(areas)
