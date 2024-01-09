@@ -675,10 +675,18 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
     }
     else{
         console.log('index Of Uppermapping is 0')
+        //endOfUpperMappingOutput = Number(startValueOfUpperMappingOutput) + Number(mappingsvaluetoRange[indexOfUpperMapping].get(startValueOfUpperMappingOutput))-1
+        //endOfUpperMappingInput = Number(startValueOfUpperMappingInput) + Number(mappingskeytoRange[indexOfUpperMapping].get(startValueOfUpperMappingInput))-1 
         console.log(arrayToExtend)
-        console.log(startValueOfUpperMappingInput)
-        console.log(endValueOfUpperMappingInput)
-        console.log(endValueOfUpperMappingInput-startValueOfUpperMappingInput)
+        startValueFromArrayToExtend = Number(arrayToExtend[6][0]) 
+        endValueFromArrayToExtend = Number(arrayToExtend[6][1])
+        console.log(getInitialValueForThisValueTroughRange(startValueFromArrayToExtend,mappingsvaluetoRange[0]))
+        initialValueAndDiff = getInitialValueForThisValueTroughRange(startValueFromArrayToExtend,mappingsvaluetoRange[0]);
+        startValueInputOfMapping0 = Number(initialValueAndDiff[0]) + Number(initialValueAndDiff[1])
+        endValueInputOfMapping0 = startValueInputOfMapping0 + (endValueFromArrayToExtend - startValueFromArrayToExtend)
+        console.log(startValueInputOfMapping0)
+        console.log(endValueInputOfMapping0)
+        console.log(endValueInputOfMapping0-startValueInputOfMapping0)
         console.log(initialNumbers)
         sortedinitialNumbers = []
         for(let r = 0; r<initialNumbers.length; r++){
@@ -689,17 +697,17 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
         console.log(initialNumbers)
         for(let u = 0; u<sortedinitialNumbers.length; u++){
             console.log('sortedInitialNumber: ' + u)
-            if(sortedinitialNumbers[u]>=startValueOfUpperMappingInput && sortedinitialNumbers[u]<=endValueOfUpperMappingInput){
+            if(sortedinitialNumbers[u]>=startValueInputOfMapping0 && sortedinitialNumbers[u]<=endValueInputOfMapping0){
                 //return in
                 console.log('Der finale Input ist (initialValue): ' + sortedinitialNumbers[u])
                 testtesttest.push(sortedinitialNumbers[u])
                 //return processValue(sortedinitialNumbers[i])
             }
-            if(sortedinitialNumbers[u] -1 + Number(mappingInitialNumberToRange.get(sortedinitialNumbers[u]))>=startValueOfUpperMappingInput && sortedinitialNumbers[u]<=endValueOfUpperMappingInput){
+            if(sortedinitialNumbers[u] -1 + Number(mappingInitialNumberToRange.get(sortedinitialNumbers[u]))>=startValueInputOfMapping0 && sortedinitialNumbers[u]<=endValueInputOfMapping0){
                 //return startval
-                console.log('Der finale Input ist (startvalue): ' + startValueOfUpperMappingInput)
-                testtesttest.push(startValueOfUpperMappingInput)
-                //return processValue(startValueOfUpperMappingInput)
+                console.log('Der finale Input ist (startvalue): ' + startValueInputOfMapping0)
+                testtesttest.push(startValueInputOfMapping0)
+                //return processValue(startValueInputOfMapping0)
             }
         }
         console.log('Nichts passt')
