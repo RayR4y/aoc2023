@@ -209,12 +209,14 @@ fs.readFile('day5input.txt', (err, data) => {
     isPossibleInput = false;
     
     }
-
     //minOutputOfMap7 = minOutputOfMapF;
     //inputToMap7ForMinOutput = mappingsWithRevertedKeyValues[6].get(minOutputOfMap7)
     let possibleInputForMinOutputOfMap7 = false
     testnum = Number(minOutputOfMap7) + Number(mappingsvaluetoRange[6].get(minOutputOfMap7))
-    for(let w = minOutputOfMap7; w<(Number(minOutputOfMap7) + Number(mappingsvaluetoRange[6].get(minOutputOfMap7))); w++){
+    console.log('Test narrowDownRanges')
+    allNarrowedDownRanges = new Map()
+    narrowDownRanges(6, minOutputOfMap7,allNarrowedDownRanges,[[],[],[],[],[],[],[]],0)
+    /*for(let w = minOutputOfMap7; w<(Number(minOutputOfMap7) + Number(mappingsvaluetoRange[6].get(minOutputOfMap7))); w++){
         console.log(w + '  /  ' + testnum)
         setAmountMappingsUsedAndPrepareForReverted(7);
         let inputForMinOutputOfMap7= pipe(
@@ -241,7 +243,7 @@ fs.readFile('day5input.txt', (err, data) => {
             }
             /*if(initialNumbers[t]> inputForMinOutputOfMap7){
                 temporaryArrayForInitialInputNumbers.push(initialNumbers[t])
-            }*/
+            }
         }
         /*minNumOutOfInitialTempArray = Math.min(...temporaryArrayForInitialInputNumbers);
         setAmountMappingsUsedAndPrepare(7,0)
@@ -256,8 +258,8 @@ fs.readFile('day5input.txt', (err, data) => {
         )(Number(minNumOutOfInitialTempArray))
         testvariable123 = minOutputOfminNumOutOfInitialTempArray-1
         console.log('w changed to:' +  testvariable123)
-        w = minOutputOfminNumOutOfInitialTempArray-1;*/
-    }
+        w = minOutputOfminNumOutOfInitialTempArray-1;
+    }*/
 
 
     minInitialInput = Math.min(...initialNumbers);
@@ -515,7 +517,19 @@ allArrayCombinationsOfNarrowedDownRanges = []
 //input möglichen Bereich verkleinert. der verkleinerte Endoutput bereich wird dann vom kleinsten Wert aus nach vorhandenseins des
 //initialen inputwertes geprüft und der erste Wert der zurückgegeben wird wird in Array mit Minimumwerten zum vergleich gespeichert.
 //Idee: statt für jeden Bereich ein eigenes Array zu erstellen Werte alle Pro Ebene in einem Array und dazu Matrix für Zusammenhang?
-//Baumstruktur aus Java auch anders in Java Script nachbaubar?
-function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMapping){
-    initialArray = [[],[],[],[],[],[],[]]
+//Baumstruktur aus Java auch anders in Java Script nachbaubar? -> verschachtelte Maps
+function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMapping, mapWithAllUpperMappingsNarrowedDown, arrayToExtend, mapNewindex){
+    endOfUpperMapping = Number(startValueOfUpperMapping) + Number(mappingsvaluetoRange[indexOfUpperMapping].get(startValueOfUpperMapping))
+    console.log('startOfUpperMapping:' + startValueOfUpperMapping)
+    console.log('endOfUpperMapping:' + endOfUpperMapping)
+    allLowerMappingAreaStarts = Array.from(mappingsvaluetoRange[Number(indexOfUpperMapping)-1].keys())
+    console.log('before sort:')
+    console.log(allLowerMappingAreaStarts)
+    for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
+        allLowerMappingAreaStarts[i] = Number(allLowerMappingAreaStarts[i])
+    }
+    allLowerMappingAreaStarts.sort(function(a, b){return a-b})
+    console.log('after sort:')
+    console.log(allLowerMappingAreaStarts)
+    //step = 
 }
