@@ -554,11 +554,54 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, st
         console.log(allLowerMappingAreaInputStartValues[i])
         console.log(allLowerMappingAreaInputEndValues[i])
     }
+    areas = []
     for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
         condition1 = allLowerMappingAreaStarts[i]>= startValueOfUpperMappingInput && allLowerMappingAreaStarts[i]<= endOfUpperMappingInput;
         condition2 = allLowerMappingAreaEnds[i] >= startValueOfUpperMappingInput && allLowerMappingAreaStarts[i]<= endOfUpperMappingInput;
         if(condition1 || condition2){
-
+            console.log(true)
+            areas.push([allLowerMappingAreaStarts[i],allLowerMappingAreaEnds[i]])
         }
     }
+    console.log(areas)
+    finalareas = []
+    for(let l = 0; l<areas.length; l++){
+        if(areas[l][0]<startValueOfUpperMappingInput){
+            areas[l][0] = startValueOfUpperMappingInput
+        }
+        if(areas[l][1]>endOfUpperMappingInput){
+            areas[l][1] = endOfUpperMappingInput
+        }
+    }
+    console.log(areas)
+    if(areas.length == 0){
+        finalareas.push[startValueOfUpperMappingInput,endOfUpperMappingInput]
+    }
+    else{
+        if(areas[0][0] != startValueOfUpperMappingInput){
+            finalareas.push([startValueOfUpperMappingInput,areas[0][0]-1])
+        }
+        finalareas.push(areas[0])
+        if(areas.length >1){
+            for(let l = 1; l<areas.length; l++){
+                if(areas[l-1][1]==areas[l][0]-1){
+                    finalareas.push(areas[l])
+                }
+                else{
+                    finalareas.push([areas[l-1][1]+1,areas[l][0]-1])
+                    finalareas.push(areas[l])
+                }
+            }
+        }
+        if(areas[areas.length-1][1] != endOfUpperMappingInput){
+            finalareas.push([areas[areas.length-1][1]+1,endOfUpperMappingInput])
+        }
+    }
+    inputareas = finalareas.slice()
+    //areas auch für input hinzufügen! -> hier inputareas erstellen(druch finalareas kopieren) und alles was auch in Referenz ist 
+    //auf input mappen und ersetzen
+    console.log(finalareas)
+    console.log('areasref und inputareas:')
+    console.log(areas)
+    console.log(inputareas)
 }
