@@ -213,10 +213,12 @@ fs.readFile('day5input.txt', (err, data) => {
     //inputToMap7ForMinOutput = mappingsWithRevertedKeyValues[6].get(minOutputOfMap7)
     let possibleInputForMinOutputOfMap7 = false
     inputForminOutputOfMap7 = mappingsWithRevertedKeyValues[6].get(minOutputOfMap7)
-    testnum = Number(minOutputOfMap7) + Number(mappingsvaluetoRange[6].get(minOutputOfMap7))
+    testnum = Number(minOutputOfMap7) + Number(mappingsvaluetoRange[6].get(minOutputOfMap7))-1
     console.log('Test narrowDownRanges')
     allNarrowedDownRanges = new Map()
-    narrowDownRanges(6, inputForminOutputOfMap7,minOutputOfMap7,allNarrowedDownRanges,[[],[],[],[],[],[],[]],0)
+    allNarrowedDownRanges.set(0,[minOutputOfMap7,testnum])
+    //(indexOfUpperMapping, startValueOfUpperMappingInput, endValueOfUpperMappingInput, startValueOfUpperMappingOutput, endValueOfUpperMappingOutput, arrayToExtend)
+    narrowDownRanges(6, inputForminOutputOfMap7,0,minOutputOfMap7,0,[allNarrowedDownRanges.get(0)])
     /*for(let w = minOutputOfMap7; w<(Number(minOutputOfMap7) + Number(mappingsvaluetoRange[6].get(minOutputOfMap7))); w++){
         console.log(w + '  /  ' + testnum)
         setAmountMappingsUsedAndPrepareForReverted(7);
@@ -521,97 +523,137 @@ allArrayCombinationsOfNarrowedDownRanges = []
 //Baumstruktur aus Java auch anders in Java Script nachbaubar? -> verschachtelte Maps
 
 //end und range des Uppermappings müssen für später rekursion und Teilbereiche mitgegeben werden!
-function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, startValueOfUpperMappingOutput, mapWithAllUpperMappingsNarrowedDown, arrayToExtend, mapNewindex){
-
-    endOfUpperMappingOutput = Number(startValueOfUpperMappingOutput) + Number(mappingsvaluetoRange[indexOfUpperMapping].get(startValueOfUpperMappingOutput))-1
-    endOfUpperMappingInput = Number(startValueOfUpperMappingInput) + Number(mappingskeytoRange[indexOfUpperMapping].get(startValueOfUpperMappingInput))-1
-    console.log('startOfUpperMappingOutput:' + startValueOfUpperMappingOutput)
-    console.log('endOfUpperMappingOutput:' + endOfUpperMappingOutput)
-    console.log('startOfUpperMappingInput:' + startValueOfUpperMappingInput)
-    console.log('endOfUpperMappingInput:' + endOfUpperMappingInput)
-    allLowerMappingAreaStarts = Array.from(mappingsvaluetoRange[Number(indexOfUpperMapping)-1].keys())
-    console.log('before sort:')
-    console.log(allLowerMappingAreaStarts)
-    for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
-        allLowerMappingAreaStarts[i] = Number(allLowerMappingAreaStarts[i])
-    }
-    allLowerMappingAreaStarts.sort(function(a, b){return a-b})
-    console.log('after sort:')
-    console.log(allLowerMappingAreaStarts)
-    allLowerMappingAreaEnds = []
-    allLowerMappingAreaInputStartValues = []
-    allLowerMappingAreaInputEndValues = []
-    for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
-        allLowerMappingAreaEnds.push(Number(mappingsvaluetoRange[Number(indexOfUpperMapping)-1].get(allLowerMappingAreaStarts[i])) + allLowerMappingAreaStarts[i]-1)
-        inputStartValue = Number(mappingsWithRevertedKeyValues[Number(indexOfUpperMapping)-1].get(allLowerMappingAreaStarts[i]))
-        allLowerMappingAreaInputStartValues.push(inputStartValue)
-        allLowerMappingAreaInputEndValues.push(inputStartValue -1 + Number(mappingskeytoRange[Number(indexOfUpperMapping)-1].get(inputStartValue)))
-    }
-    for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
-        console.log('startOutp, endOutp, startinp, endInp')
-        console.log(allLowerMappingAreaStarts[i])
-        console.log(allLowerMappingAreaEnds[i])
-        console.log(allLowerMappingAreaInputStartValues[i])
-        console.log(allLowerMappingAreaInputEndValues[i])
-    }
-    areas = []
-    for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
-        condition1 = allLowerMappingAreaStarts[i]>= startValueOfUpperMappingInput && allLowerMappingAreaStarts[i]<= endOfUpperMappingInput;
-        condition2 = allLowerMappingAreaEnds[i] >= startValueOfUpperMappingInput && allLowerMappingAreaStarts[i]<= endOfUpperMappingInput;
-        if(condition1 || condition2){
-            console.log(true)
-            areas.push([allLowerMappingAreaStarts[i],allLowerMappingAreaEnds[i]])
+function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, endValueOfUpperMappingInput, startValueOfUpperMappingOutput, endValueOfUpperMappingOutput, arrayToExtend){
+    if(indexOfUpperMapping>0){
+        if(indexOfUpperMapping==6){
+            console.log('index is 6!')
+            endOfUpperMappingOutput = Number(startValueOfUpperMappingOutput) + Number(mappingsvaluetoRange[indexOfUpperMapping].get(startValueOfUpperMappingOutput))-1
+            endOfUpperMappingInput = Number(startValueOfUpperMappingInput) + Number(mappingskeytoRange[indexOfUpperMapping].get(startValueOfUpperMappingInput))-1 
+        }else{
+            endOfUpperMappingOutput = endValueOfUpperMappingOutput
+            endOfUpperMappingInput = endValueOfUpperMappingInput
         }
-    }
-    console.log(areas)
-    finalareas = []
-    for(let l = 0; l<areas.length; l++){
-        if(areas[l][0]<startValueOfUpperMappingInput){
-            areas[l][0] = startValueOfUpperMappingInput
+        console.log('startOfUpperMappingOutput:' + startValueOfUpperMappingOutput)
+        console.log('endOfUpperMappingOutput:' + endOfUpperMappingOutput)
+        console.log('startOfUpperMappingInput:' + startValueOfUpperMappingInput)
+        console.log('endOfUpperMappingInput:' + endOfUpperMappingInput)
+        allLowerMappingAreaStarts = Array.from(mappingsvaluetoRange[Number(indexOfUpperMapping)-1].keys())
+        console.log('before sort:')
+        console.log(allLowerMappingAreaStarts)
+        for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
+            allLowerMappingAreaStarts[i] = Number(allLowerMappingAreaStarts[i])
         }
-        if(areas[l][1]>endOfUpperMappingInput){
-            areas[l][1] = endOfUpperMappingInput
+        allLowerMappingAreaStarts.sort(function(a, b){return a-b})
+        console.log('after sort:')
+        console.log(allLowerMappingAreaStarts)
+        allLowerMappingAreaEnds = []
+        allLowerMappingAreaInputStartValues = []
+        allLowerMappingAreaInputEndValues = []
+        for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
+            allLowerMappingAreaEnds.push(Number(mappingsvaluetoRange[Number(indexOfUpperMapping)-1].get(allLowerMappingAreaStarts[i])) + allLowerMappingAreaStarts[i]-1)
+            inputStartValue = Number(mappingsWithRevertedKeyValues[Number(indexOfUpperMapping)-1].get(allLowerMappingAreaStarts[i]))
+            allLowerMappingAreaInputStartValues.push(inputStartValue)
+            allLowerMappingAreaInputEndValues.push(inputStartValue -1 + Number(mappingskeytoRange[Number(indexOfUpperMapping)-1].get(inputStartValue)))
         }
-    }
-    console.log(areas)
-    if(areas.length == 0){
-        finalareas.push[startValueOfUpperMappingInput,endOfUpperMappingInput]
-    }
-    else{
-        if(areas[0][0] != startValueOfUpperMappingInput){
-            finalareas.push([startValueOfUpperMappingInput,areas[0][0]-1])
+        for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
+            console.log('startOutp, endOutp, startinp, endInp')
+            console.log(allLowerMappingAreaStarts[i])
+            console.log(allLowerMappingAreaEnds[i])
+            console.log(allLowerMappingAreaInputStartValues[i])
+            console.log(allLowerMappingAreaInputEndValues[i])
         }
-        finalareas.push(areas[0])
-        if(areas.length >1){
-            for(let l = 1; l<areas.length; l++){
-                if(areas[l-1][1]==areas[l][0]-1){
-                    finalareas.push(areas[l])
-                }
-                else{
-                    finalareas.push([areas[l-1][1]+1,areas[l][0]-1])
-                    finalareas.push(areas[l])
-                }
+        areas = []
+        for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
+            condition1 = allLowerMappingAreaStarts[i]>= startValueOfUpperMappingInput && allLowerMappingAreaStarts[i]<= endOfUpperMappingInput;
+            condition2 = allLowerMappingAreaEnds[i] >= startValueOfUpperMappingInput && allLowerMappingAreaStarts[i]<= endOfUpperMappingInput;
+            /*console.log('condtition1:')
+            console.log(condition1)
+            console.log('condtition2:')
+            console.log(condition2)
+            console.log('or:')
+            console.log(condition1 || condition2)*/
+            if(condition1 || condition2){
+                console.log(true)
+                areas.push([allLowerMappingAreaStarts[i],allLowerMappingAreaEnds[i]])
             }
         }
-        if(areas[areas.length-1][1] != endOfUpperMappingInput){
-            finalareas.push([areas[areas.length-1][1]+1,endOfUpperMappingInput])
+        console.log(areas)
+        finalareas = []
+        for(let l = 0; l<areas.length; l++){
+            if(areas[l][0]<startValueOfUpperMappingInput){
+                areas[l][0] = startValueOfUpperMappingInput
+            }
+            if(areas[l][1]>endOfUpperMappingInput){
+                areas[l][1] = endOfUpperMappingInput
+            }
         }
-    }
-    inputareas = []
-    for(let i = 0; i<finalareas.length; i++){
-        if(getInitialValueForThisValueTroughRange(finalareas[i][0],mappingsvaluetoRange[indexOfUpperMapping-1])[0]!=undefined){
-            initialValueArray = getInitialValueForThisValueTroughRange(finalareas[i][0],mappingsvaluetoRange[indexOfUpperMapping-1])
-            diffStartEnd = Number(finalareas[i][1]) - Number(finalareas[i][0])
-            valueOne = Number(mappingsWithRevertedKeyValues[indexOfUpperMapping-1].get(initialValueArray[0])) + Number(initialValueArray[1])
-            valueTwo = valueOne + diffStartEnd
-            inputareas.push([valueOne,valueTwo])
+        console.log(areas)
+        if(areas.length == 0){
+            finalareas.push([startValueOfUpperMappingInput,endOfUpperMappingInput])
         }
         else{
-            inputareas.push(finalareas[i])
+            if(areas[0][0] != startValueOfUpperMappingInput){
+                finalareas.push([startValueOfUpperMappingInput,areas[0][0]-1])
+            }
+            finalareas.push(areas[0])
+            if(areas.length >1){
+                for(let l = 1; l<areas.length; l++){
+                    if(areas[l-1][1]==areas[l][0]-1){
+                        finalareas.push(areas[l])
+                    }
+                    else{
+                        finalareas.push([areas[l-1][1]+1,areas[l][0]-1])
+                        finalareas.push(areas[l])
+                    }
+                }
+            }
+            if(areas[areas.length-1][1] != endOfUpperMappingInput){
+                finalareas.push([areas[areas.length-1][1]+1,endOfUpperMappingInput])
+            }
+        }
+        inputareas = []
+        for(let i = 0; i<finalareas.length; i++){
+            if(getInitialValueForThisValueTroughRange(finalareas[i][0],mappingsvaluetoRange[indexOfUpperMapping-1])[0]!=undefined){
+                initialValueArray = getInitialValueForThisValueTroughRange(finalareas[i][0],mappingsvaluetoRange[indexOfUpperMapping-1])
+                diffStartEnd = Number(finalareas[i][1]) - Number(finalareas[i][0])
+                valueOne = Number(mappingsWithRevertedKeyValues[indexOfUpperMapping-1].get(initialValueArray[0])) + Number(initialValueArray[1])
+                valueTwo = valueOne + diffStartEnd
+                inputareas.push([valueOne,valueTwo])
+            }
+            else{
+                inputareas.push(finalareas[i])
+            }
+        }
+        console.log(finalareas)
+        console.log('areasref und inputareas:')
+        console.log(areas)
+        console.log(inputareas)
+        testarray1 = [[1,2],[3,4]]
+        testarray2 = []
+        for(let t = 0; t<testarray1.length; t++){
+            testarray2.push(testarray1[t])
+        }
+        //dann rekursiven aufruf und if bedingung für ende rekursion einbauen
+        testarray2.push([5,6])
+        console.log('testarrays')
+        console.log(testarray1)
+        console.log(testarray2)
+
+        for(let i = 0; i<finalareas.length; i++){
+            extendedArray = []
+            for(let j = 0; j<arrayToExtend.length;j++){
+                extendedArray.push(arrayToExtend[j])
+            }
+            extendedArray.push(finalareas[i])
+            console.log('extendedArray:')
+            console.log(extendedArray)
+            //indexOfUpperMapping, startValueOfUpperMappingInput, startValueOfUpperMappingOutput,
+            narrowDownRanges(indexOfUpperMapping-1, inputareas[i][0], inputareas[i][1], finalareas[i][0],finalareas[i][1], extendedArray)
         }
     }
-    console.log(finalareas)
-    console.log('areasref und inputareas:')
-    console.log(areas)
-    console.log(inputareas)
+    else{
+        console.log('index Of Uppermapping is 0')
+        console.log(arrayToExtend)
+    }
+
 }
