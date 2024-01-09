@@ -523,8 +523,8 @@ allArrayCombinationsOfNarrowedDownRanges = []
 //end und range des Uppermappings müssen für später rekursion und Teilbereiche mitgegeben werden!
 function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, startValueOfUpperMappingOutput, mapWithAllUpperMappingsNarrowedDown, arrayToExtend, mapNewindex){
 
-    endOfUpperMappingOutput = Number(startValueOfUpperMappingOutput) + Number(mappingsvaluetoRange[indexOfUpperMapping].get(startValueOfUpperMappingOutput))
-    endOfUpperMappingInput = Number(startValueOfUpperMappingInput) + Number(mappingskeytoRange[indexOfUpperMapping].get(startValueOfUpperMappingInput))
+    endOfUpperMappingOutput = Number(startValueOfUpperMappingOutput) + Number(mappingsvaluetoRange[indexOfUpperMapping].get(startValueOfUpperMappingOutput))-1
+    endOfUpperMappingInput = Number(startValueOfUpperMappingInput) + Number(mappingskeytoRange[indexOfUpperMapping].get(startValueOfUpperMappingInput))-1
     console.log('startOfUpperMappingOutput:' + startValueOfUpperMappingOutput)
     console.log('endOfUpperMappingOutput:' + endOfUpperMappingOutput)
     console.log('startOfUpperMappingInput:' + startValueOfUpperMappingInput)
@@ -542,10 +542,10 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, st
     allLowerMappingAreaInputStartValues = []
     allLowerMappingAreaInputEndValues = []
     for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
-        allLowerMappingAreaEnds.push(Number(mappingsvaluetoRange[Number(indexOfUpperMapping)-1].get(allLowerMappingAreaStarts[i])) + allLowerMappingAreaStarts[i])
+        allLowerMappingAreaEnds.push(Number(mappingsvaluetoRange[Number(indexOfUpperMapping)-1].get(allLowerMappingAreaStarts[i])) + allLowerMappingAreaStarts[i]-1)
         inputStartValue = Number(mappingsWithRevertedKeyValues[Number(indexOfUpperMapping)-1].get(allLowerMappingAreaStarts[i]))
         allLowerMappingAreaInputStartValues.push(inputStartValue)
-        allLowerMappingAreaInputEndValues.push(inputStartValue + Number(mappingskeytoRange[Number(indexOfUpperMapping)-1].get(inputStartValue)))
+        allLowerMappingAreaInputEndValues.push(inputStartValue -1 + Number(mappingskeytoRange[Number(indexOfUpperMapping)-1].get(inputStartValue)))
     }
     for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
         console.log('startOutp, endOutp, startinp, endInp')
