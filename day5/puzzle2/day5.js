@@ -212,10 +212,11 @@ fs.readFile('day5input.txt', (err, data) => {
     //minOutputOfMap7 = minOutputOfMapF;
     //inputToMap7ForMinOutput = mappingsWithRevertedKeyValues[6].get(minOutputOfMap7)
     let possibleInputForMinOutputOfMap7 = false
+    inputForminOutputOfMap7 = mappingsWithRevertedKeyValues[6].get(minOutputOfMap7)
     testnum = Number(minOutputOfMap7) + Number(mappingsvaluetoRange[6].get(minOutputOfMap7))
     console.log('Test narrowDownRanges')
     allNarrowedDownRanges = new Map()
-    narrowDownRanges(6, minOutputOfMap7,allNarrowedDownRanges,[[],[],[],[],[],[],[]],0)
+    narrowDownRanges(6, inputForminOutputOfMap7,minOutputOfMap7,allNarrowedDownRanges,[[],[],[],[],[],[],[]],0)
     /*for(let w = minOutputOfMap7; w<(Number(minOutputOfMap7) + Number(mappingsvaluetoRange[6].get(minOutputOfMap7))); w++){
         console.log(w + '  /  ' + testnum)
         setAmountMappingsUsedAndPrepareForReverted(7);
@@ -518,10 +519,16 @@ allArrayCombinationsOfNarrowedDownRanges = []
 //initialen inputwertes geprüft und der erste Wert der zurückgegeben wird wird in Array mit Minimumwerten zum vergleich gespeichert.
 //Idee: statt für jeden Bereich ein eigenes Array zu erstellen Werte alle Pro Ebene in einem Array und dazu Matrix für Zusammenhang?
 //Baumstruktur aus Java auch anders in Java Script nachbaubar? -> verschachtelte Maps
-function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMapping, mapWithAllUpperMappingsNarrowedDown, arrayToExtend, mapNewindex){
-    endOfUpperMapping = Number(startValueOfUpperMapping) + Number(mappingsvaluetoRange[indexOfUpperMapping].get(startValueOfUpperMapping))
-    console.log('startOfUpperMapping:' + startValueOfUpperMapping)
-    console.log('endOfUpperMapping:' + endOfUpperMapping)
+
+//end und range des Uppermappings müssen für später rekursion und Teilbereiche mitgegeben werden!
+function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, startValueOfUpperMappingOutput, mapWithAllUpperMappingsNarrowedDown, arrayToExtend, mapNewindex){
+
+    endOfUpperMappingOutput = Number(startValueOfUpperMappingOutput) + Number(mappingsvaluetoRange[indexOfUpperMapping].get(startValueOfUpperMappingOutput))
+    endOfUpperMappingInput = Number(startValueOfUpperMappingInput) + Number(mappingskeytoRange[indexOfUpperMapping].get(startValueOfUpperMappingInput))
+    console.log('startOfUpperMappingOutput:' + startValueOfUpperMappingOutput)
+    console.log('endOfUpperMappingOutput:' + endOfUpperMappingOutput)
+    console.log('startOfUpperMappingInput:' + startValueOfUpperMappingInput)
+    console.log('endOfUpperMappingInput:' + endOfUpperMappingInput)
     allLowerMappingAreaStarts = Array.from(mappingsvaluetoRange[Number(indexOfUpperMapping)-1].keys())
     console.log('before sort:')
     console.log(allLowerMappingAreaStarts)
@@ -531,5 +538,27 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMapping, mapWith
     allLowerMappingAreaStarts.sort(function(a, b){return a-b})
     console.log('after sort:')
     console.log(allLowerMappingAreaStarts)
-    //step = 
+    allLowerMappingAreaEnds = []
+    allLowerMappingAreaInputStartValues = []
+    allLowerMappingAreaInputEndValues = []
+    for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
+        allLowerMappingAreaEnds.push(Number(mappingsvaluetoRange[Number(indexOfUpperMapping)-1].get(allLowerMappingAreaStarts[i])) + allLowerMappingAreaStarts[i])
+        inputStartValue = Number(mappingsWithRevertedKeyValues[Number(indexOfUpperMapping)-1].get(allLowerMappingAreaStarts[i]))
+        allLowerMappingAreaInputStartValues.push(inputStartValue)
+        allLowerMappingAreaInputEndValues.push(inputStartValue + Number(mappingskeytoRange[Number(indexOfUpperMapping)-1].get(inputStartValue)))
+    }
+    for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
+        console.log('startOutp, endOutp, startinp, endInp')
+        console.log(allLowerMappingAreaStarts[i])
+        console.log(allLowerMappingAreaEnds[i])
+        console.log(allLowerMappingAreaInputStartValues[i])
+        console.log(allLowerMappingAreaInputEndValues[i])
+    }
+    for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
+        condition1 = allLowerMappingAreaStarts[i]>= startValueOfUpperMappingInput && allLowerMappingAreaStarts[i]<= endOfUpperMappingInput;
+        condition2 = allLowerMappingAreaEnds[i] >= startValueOfUpperMappingInput && allLowerMappingAreaStarts[i]<= endOfUpperMappingInput;
+        if(condition1 || condition2){
+
+        }
+    }
 }
