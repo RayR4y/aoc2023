@@ -13,6 +13,7 @@ mappingskeytoRange = []
 mappingsvaluetoRange = []
 mappingsWithRevertedKeyValues = []
 arrayForSavingMinOutputOfMap7 = []
+mappingInitialNumberToRange = new Map()
 fs.readFile('day5input.txt', (err, data) => {
     if (err) throw err;
     const input = data.toString().split('\n');
@@ -40,6 +41,10 @@ fs.readFile('day5input.txt', (err, data) => {
             ranges.push(seeds[s])
         }
         even = !even;
+    }
+
+    for(let s = 0; s<initialNumbers.length; s++){
+        mappingInitialNumberToRange.set(Number(initialNumbers[s]),Number(ranges[s]))
     }
     //console.log('initial Numbers:' + initialNumbers)
     //console.log('ranges:' + ranges)
@@ -654,6 +659,9 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
     else{
         console.log('index Of Uppermapping is 0')
         console.log(arrayToExtend)
+        console.log(startValueOfUpperMappingInput)
+        console.log(endValueOfUpperMappingInput)
+        console.log(endValueOfUpperMappingInput-startValueOfUpperMappingInput)
     }
 
 }
