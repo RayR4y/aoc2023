@@ -578,7 +578,17 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
         for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
             condition1 = allLowerMappingAreaStarts[i]>= startValueOfUpperMappingInput && allLowerMappingAreaStarts[i]<= endOfUpperMappingInput;
             condition2 = allLowerMappingAreaEnds[i] >= startValueOfUpperMappingInput && allLowerMappingAreaStarts[i]<= endOfUpperMappingInput;
+            //debugging
+            if(allLowerMappingAreaStarts[i]==1494154584){
+                console.log(condition1)
+                console.log(condition2)
+                console.log('condition1 visualised:')
+                console.log(allLowerMappingAreaStarts[i] + ' >= ' + startValueOfUpperMappingInput + ' && ' + allLowerMappingAreaStarts[i] + ' <= ' + endOfUpperMappingInput)
+                console.log('condition2 visualised:')
+                console.log(allLowerMappingAreaEnds[i] + ' >= ' + startValueOfUpperMappingInput + ' && ' + allLowerMappingAreaStarts[i] + ' <= ' + endOfUpperMappingInput)
+            }
             /*console.log('condtition1:')
+            if()
             console.log(condition1)
             console.log('condtition2:')
             console.log(condition2)
@@ -667,10 +677,15 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
             console.log('finalareas:')
             console.log(finalareas)
             console.log('finalareas in storage:')
+            console.log(tempStorageFinalAreas)
+            console.log(recursionIndex)
             console.log(tempStorageFinalAreas[recursionIndex])
             console.log(tempStorageInputAreas[recursionIndex][i][0])
             console.log(tempStorageFinalAreas[recursionIndex][i][0])
             //indexOfUpperMapping, startValueOfUpperMappingInput, startValueOfUpperMappingOutput,
+            console.log('NarrowDownRangesRecursionhasStarted:')
+            console.log('(indexOfUpperMapping, startValueOfUpperMappingInput, endValueOfUpperMappingInput, startValueOfUpperMappingOutput, endValueOfUpperMappingOutput, arrayToExtend, recursionIndex)')
+            console.log(indexOfUpperMapping-1 + ' , ' + tempStorageInputAreas[recursionIndex][i][0] + ' , ' + tempStorageInputAreas[recursionIndex][i][1] + ' , ' + tempStorageFinalAreas[recursionIndex][i][0] + ' , ' + tempStorageFinalAreas[recursionIndex][i][1] + ' , ' + extendedArray + ' , ' + recursionIndex+1)
             narrowDownRanges(indexOfUpperMapping-1, tempStorageInputAreas[recursionIndex][i][0], tempStorageInputAreas[recursionIndex][i][1], tempStorageFinalAreas[recursionIndex][i][0],tempStorageFinalAreas[recursionIndex][i][1], extendedArray, recursionIndex+1)
             console.log('finalareaslength is at end:' + finalareas.length)
             console.log('temptestarray is at end:' + temptestarray.length)
@@ -686,7 +701,7 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
         console.log(getInitialValueForThisValueTroughRange(startValueFromArrayToExtend,mappingsvaluetoRange[0]))
         initialValueAndDiff = getInitialValueForThisValueTroughRange(startValueFromArrayToExtend,mappingsvaluetoRange[0]);
         startValueInputOfMapping0 = mappingsWithRevertedKeyValues[0].get(Number(initialValueAndDiff[0])) + Number(initialValueAndDiff[1])
-        endValueInputOfMapping0 = startValueInputOfMapping0 + mappingsvaluetoRange[0].get(Number(initialValueAndDiff[0])) - Number(initialValueAndDiff[1])
+        endValueInputOfMapping0 = startValueInputOfMapping0 + (endValueFromArrayToExtend - startValueFromArrayToExtend)      //mappingsvaluetoRange[0].get(Number(initialValueAndDiff[0])) - Number(initialValueAndDiff[1])
         console.log(startValueInputOfMapping0)
         console.log(endValueInputOfMapping0)
         console.log(endValueInputOfMapping0-startValueInputOfMapping0)
