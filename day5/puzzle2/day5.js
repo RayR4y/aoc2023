@@ -682,8 +682,8 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
         endValueFromArrayToExtend = Number(arrayToExtend[6][1])
         console.log(getInitialValueForThisValueTroughRange(startValueFromArrayToExtend,mappingsvaluetoRange[0]))
         initialValueAndDiff = getInitialValueForThisValueTroughRange(startValueFromArrayToExtend,mappingsvaluetoRange[0]);
-        startValueInputOfMapping0 = Number(initialValueAndDiff[0]) + Number(initialValueAndDiff[1])
-        endValueInputOfMapping0 = startValueInputOfMapping0 + (endValueFromArrayToExtend - startValueFromArrayToExtend)
+        startValueInputOfMapping0 = mappingsWithRevertedKeyValues[0].get(Number(initialValueAndDiff[0])) + Number(initialValueAndDiff[1])
+        endValueInputOfMapping0 = startValueInputOfMapping0 + mappingsvaluetoRange[0].get(Number(initialValueAndDiff[0])) - Number(initialValueAndDiff[1])
         console.log(startValueInputOfMapping0)
         console.log(endValueInputOfMapping0)
         console.log(endValueInputOfMapping0-startValueInputOfMapping0)
