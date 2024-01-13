@@ -542,11 +542,14 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
             endOfUpperMappingOutput = endValueOfUpperMappingOutput
             endOfUpperMappingInput = endValueOfUpperMappingInput
         }
+        //test
+        console.log(mappingsWithRevertedKeyValues[Number(indexOfUpperMapping)-1])
+        //test
         console.log('startOfUpperMappingOutput:' + startValueOfUpperMappingOutput)
         console.log('endOfUpperMappingOutput:' + endOfUpperMappingOutput)
         console.log('startOfUpperMappingInput:' + startValueOfUpperMappingInput)
         console.log('endOfUpperMappingInput:' + endOfUpperMappingInput)
-        allLowerMappingAreaStarts = Array.from(mappingsvaluetoRange[Number(indexOfUpperMapping)-1].keys())
+        allLowerMappingAreaStarts = Array.from(mappingsWithRevertedKeyValues[Number(indexOfUpperMapping)-1].keys())
         console.log('before sort:')
         console.log(allLowerMappingAreaStarts)
         for(let i = 0; i<allLowerMappingAreaStarts.length; i++){
