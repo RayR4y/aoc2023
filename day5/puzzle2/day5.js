@@ -236,18 +236,21 @@ fs.readFile('day5input.txt', (err, data) => {
     console.log(tempStorageFinalAreasForRecursion)
     console.log(tempStorageInputAreasForRecursion)
     //function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, endValueOfUpperMappingInput, startValueOfUpperMappingOutput, endValueOfUpperMappingOutput, arrayToExtend, recursionIndex){
-    initArrayToExtend = []
     console.log('the code gets here')
     /*while(true){
         console.log(Number(allParamsForRecursion[0][0])-1)
     }*/
-    for(let v = 0; v<7-Number(allParamsForRecursion[0][0]); v++){
+    /*for(let v = 0; v<7-Number(allParamsForRecursion[0][0]); v++){
         initArrayToExtend.push([])
-    }
+    }*/
     for(let z = 0; z<tempStorageFinalAreasForRecursion.length; z++){
+        initArrayToExtend = []
         console.log('Bugfixing124:')
+        for(let v = 0; v<7-Number(allParamsForRecursion[0]); v++){
+            initArrayToExtend.push([])
+        }
         initArrayToExtend.push([tempStorageFinalAreasForRecursion[z][0],tempStorageFinalAreasForRecursion[z][1]])
-        narrowDownRanges(Number(allParamsForRecursion[0][0])-1,tempStorageInputAreasForRecursion[z][0],tempStorageInputAreasForRecursion[z][1],tempStorageFinalAreasForRecursion[z][0],tempStorageFinalAreasForRecursion[z][1],initArrayToExtend,allParamsForRecursion[0][1])
+        narrowDownRanges(Number(allParamsForRecursion[0])-1,tempStorageInputAreasForRecursion[z][0],tempStorageInputAreasForRecursion[z][1],tempStorageFinalAreasForRecursion[z][0],tempStorageFinalAreasForRecursion[z][1],initArrayToExtend)
     }    
     /*for(let w = minOutputOfMap7; w<(Number(minOutputOfMap7) + Number(mappingsvaluetoRange[6].get(minOutputOfMap7))); w++){
         console.log(w + '  /  ' + testnum)
@@ -553,7 +556,7 @@ allArrayCombinationsOfNarrowedDownRanges = []
 //Baumstruktur aus Java auch anders in Java Script nachbaubar? -> verschachtelte Maps
 
 //end und range des Uppermappings müssen für später rekursion und Teilbereiche mitgegeben werden!
-function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, endValueOfUpperMappingInput, startValueOfUpperMappingOutput, endValueOfUpperMappingOutput, arrayToExtend, recursionIndex){
+function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, endValueOfUpperMappingInput, startValueOfUpperMappingOutput, endValueOfUpperMappingOutput, arrayToExtend){
     if(indexOfUpperMapping>0){
         if(indexOfUpperMapping==6){
             console.log('index is 6!')
@@ -689,7 +692,7 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
                 tempStorageFinalAreasForRecursion.push(finalareas[y])
                 tempStorageInputAreasForRecursion.push(inputareas[y])
             }
-            allParamsForRecursion.push([indexOfUpperMapping,recursionIndex])
+            allParamsForRecursion.push([indexOfUpperMapping])
         }
         //for(let i = 0; i<temptestarray[recursionIndex]; i++){
         for(let i = 0; i<1; i++){
@@ -697,7 +700,7 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
             for(let j = 0; j<arrayToExtend.length;j++){
                 extendedArray.push(arrayToExtend[j])
             }
-            extendedArray.push(tempStorageFinalAreas[recursionIndex][i])
+            extendedArray.push(finalareas[i])
             console.log('finalareaslength is:' + finalareas.length)
             console.log('extendedArrayOf: ' + i)
             console.log(extendedArray)
@@ -707,15 +710,16 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
             console.log(finalareas)
             console.log('finalareas in storage:')
             console.log(tempStorageFinalAreas)
-            console.log(recursionIndex)
-            console.log(tempStorageFinalAreas[recursionIndex])
-            console.log(tempStorageInputAreas[recursionIndex][i][0])
-            console.log(tempStorageFinalAreas[recursionIndex][i][0])
+            //console.log(recursionIndex)
+            //console.log(tempStorageFinalAreas[recursionIndex])
+            //console.log(tempStorageInputAreas[recursionIndex][i][0])
+            //console.log(tempStorageFinalAreas[recursionIndex][i][0])
             //indexOfUpperMapping, startValueOfUpperMappingInput, startValueOfUpperMappingOutput,
             console.log('NarrowDownRangesRecursionhasStarted:')
-            console.log('(indexOfUpperMapping, startValueOfUpperMappingInput, endValueOfUpperMappingInput, startValueOfUpperMappingOutput, endValueOfUpperMappingOutput, arrayToExtend, recursionIndex)')
-            console.log(indexOfUpperMapping-1 + ' , ' + tempStorageInputAreas[recursionIndex][i][0] + ' , ' + tempStorageInputAreas[recursionIndex][i][1] + ' , ' + tempStorageFinalAreas[recursionIndex][i][0] + ' , ' + tempStorageFinalAreas[recursionIndex][i][1] + ' , ' + extendedArray + ' , ' + recursionIndex+1)
-            narrowDownRanges(indexOfUpperMapping-1, tempStorageInputAreas[recursionIndex][i][0], tempStorageInputAreas[recursionIndex][i][1], tempStorageFinalAreas[recursionIndex][i][0],tempStorageFinalAreas[recursionIndex][i][1], extendedArray, recursionIndex+1)
+            //console.log('(indexOfUpperMapping, startValueOfUpperMappingInput, endValueOfUpperMappingInput, startValueOfUpperMappingOutput, endValueOfUpperMappingOutput, arrayToExtend, recursionIndex)')
+            //console.log(indexOfUpperMapping-1 + ' , ' + tempStorageInputAreas[recursionIndex][i][0] + ' , ' + tempStorageInputAreas[recursionIndex][i][1] + ' , ' + tempStorageFinalAreas[recursionIndex][i][0] + ' , ' + tempStorageFinalAreas[recursionIndex][i][1] + ' , ' + extendedArray + ' , ' + recursionIndex+1)
+            //narrowDownRanges(indexOfUpperMapping-1, tempStorageInputAreas[recursionIndex][i][0], tempStorageInputAreas[recursionIndex][i][1], tempStorageFinalAreas[recursionIndex][i][0],tempStorageFinalAreas[recursionIndex][i][1], extendedArray, recursionIndex+1)
+            narrowDownRanges(indexOfUpperMapping-1, inputareas[i][0], inputareas[i][1], finalareas[i][0],finalareas[i][1], extendedArray)
             console.log('finalareaslength is at end:' + finalareas.length)
             console.log('temptestarray is at end:' + temptestarray.length)
         }
@@ -759,8 +763,8 @@ function narrowDownRanges(indexOfUpperMapping, startValueOfUpperMappingInput, en
         }
         console.log('Nichts passt')
         console.log(testtesttest)
-        if(testtesttest.length!=0){
-            valueToPush = processValue(testtesttest[0])
+        if(testtesttest.length>0){
+            valueToPush = processValue(Number(testtesttest[0]))
             allPossibleMinValues.push(valueToPush)
         }
         
@@ -780,4 +784,5 @@ function processValue(value){
         getOrReturnValueIfNotInMap,
     )(Number(value))
     console.log('Der finale Output ist:' + output)
+    return output
 }
